@@ -13,9 +13,11 @@
 		870E70942B8B894F007342A2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 870E70932B8B894F007342A2 /* Preview Assets.xcassets */; };
 		870E709A2B8B894F007342A2 /* ClimbTracker Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 870E70992B8B894F007342A2 /* ClimbTracker Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		870E709F2B8B894F007342A2 /* ClimbTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870E709E2B8B894F007342A2 /* ClimbTrackerApp.swift */; };
-		870E70A12B8B894F007342A2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870E70A02B8B894F007342A2 /* ContentView.swift */; };
 		870E70A32B8B8950007342A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 870E70A22B8B8950007342A2 /* Assets.xcassets */; };
 		870E70A62B8B8950007342A2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 870E70A52B8B8950007342A2 /* Preview Assets.xcassets */; };
+		870E70B32B8B8960007342A2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870E70B02B8B895F007342A2 /* ContentView.swift */; };
+		870E70B42B8B8960007342A2 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870E70B12B8B8960007342A2 /* HealthKitManager.swift */; };
+		870E70B52B8B8960007342A2 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870E70B22B8B8960007342A2 /* ComplicationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,9 +52,13 @@
 		870E70932B8B894F007342A2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		870E70992B8B894F007342A2 /* ClimbTracker Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ClimbTracker Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		870E709E2B8B894F007342A2 /* ClimbTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbTrackerApp.swift; sourceTree = "<group>"; };
-		870E70A02B8B894F007342A2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		870E70A22B8B8950007342A2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		870E70A52B8B8950007342A2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		870E70B02B8B895F007342A2 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = ../../../../Downloads/ContentView.swift; sourceTree = "<group>"; };
+		870E70B12B8B8960007342A2 /* HealthKitManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
+		870E70B22B8B8960007342A2 /* ComplicationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
+		870E70B62B8B8999007342A2 /* ClimbTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClimbTracker.entitlements; sourceTree = "<group>"; };
+		870E70B72B8B89A7007342A2 /* ClimbTracker Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ClimbTracker Watch App.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +100,7 @@
 		870E708B2B8B894D007342A2 /* ClimbTracker */ = {
 			isa = PBXGroup;
 			children = (
+				870E70B62B8B8999007342A2 /* ClimbTracker.entitlements */,
 				870E708C2B8B894D007342A2 /* ClimbTrackerApp.swift */,
 				870E708E2B8B894D007342A2 /* ContentView.swift */,
 				870E70902B8B894F007342A2 /* Assets.xcassets */,
@@ -113,8 +120,11 @@
 		870E709D2B8B894F007342A2 /* ClimbTracker Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				870E70B72B8B89A7007342A2 /* ClimbTracker Watch App.entitlements */,
+				870E70B22B8B8960007342A2 /* ComplicationController.swift */,
+				870E70B02B8B895F007342A2 /* ContentView.swift */,
+				870E70B12B8B8960007342A2 /* HealthKitManager.swift */,
 				870E709E2B8B894F007342A2 /* ClimbTrackerApp.swift */,
-				870E70A02B8B894F007342A2 /* ContentView.swift */,
 				870E70A22B8B8950007342A2 /* Assets.xcassets */,
 				870E70A42B8B8950007342A2 /* Preview Content */,
 			);
@@ -240,8 +250,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				870E70A12B8B894F007342A2 /* ContentView.swift in Sources */,
 				870E709F2B8B894F007342A2 /* ClimbTrackerApp.swift in Sources */,
+				870E70B52B8B8960007342A2 /* ComplicationController.swift in Sources */,
+				870E70B42B8B8960007342A2 /* HealthKitManager.swift in Sources */,
+				870E70B32B8B8960007342A2 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,6 +387,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "ClimbTracker Watch App/ClimbTracker Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ClimbTracker Watch App/Preview Content\"";
@@ -382,6 +395,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = ClimbTracker;
+				INFOPLIST_KEY_CLKComplicationPrincipalClass = "$(PRODUCT_MODULE_NAME).ComplicationController";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Get Stairs and Steps";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = org.cagnulein.ClimbTracker;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -405,6 +420,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "ClimbTracker Watch App/ClimbTracker Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ClimbTracker Watch App/Preview Content\"";
@@ -412,6 +428,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = ClimbTracker;
+				INFOPLIST_KEY_CLKComplicationPrincipalClass = "$(PRODUCT_MODULE_NAME).ComplicationController";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Get Stairs and Steps";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = org.cagnulein.ClimbTracker;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -437,6 +455,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ClimbTracker/ClimbTracker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ClimbTracker/Preview Content\"";
@@ -470,6 +489,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ClimbTracker/ClimbTracker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ClimbTracker/Preview Content\"";

@@ -4,10 +4,15 @@ import HealthKit
 class HealthKitManager {
     static let shared = HealthKitManager()
     public var maxFlightLastMonth = 0.0
+    public var maxStepsLastMonth = 0.0
     private init() {
         self.fetchMaxFlightsClimbedLastMonth {
             f, error in
             self.maxFlightLastMonth = f ?? 0
+        }
+        self.fetchMaxStepsClimbedLastMonth {
+            f, error in
+            self.maxStepsLastMonth = f ?? 0
         }
     } // Privato per Singleton
 
@@ -106,6 +111,55 @@ class HealthKitManager {
         
         // Crea la HKStatisticsCollectionQuery
         let query = HKStatisticsCollectionQuery(quantityType: flightsClimbedType, quantitySamplePredicate: predicate, options: .cumulativeSum, anchorDate: startOfLastMonth, intervalComponents: interval)
+        
+        query.initialResultsHandler = { query, results, error in
+            guard let statsCollection = results else {
+                completion(nil, error) // Errore o nessun dato trovato
+                return
+            }
+            
+            // Trova il giorno con il massimo numero di flights saliti
+            var maxFlights: Double = 0
+            statsCollection.enumerateStatistics(from: startOfLastMonth, to: endOfLastMonth) { statistics, stop in
+                if let sum = statistics.sumQuantity() {
+                    let flights = sum.doubleValue(for: HKUnit.count())
+                    if flights > maxFlights {
+                        maxFlights = flights
+                    }
+                }
+            }
+            
+            completion(maxFlights, nil)
+        }
+        
+        HKHealthStore().execute(query)
+    }
+    
+    func fetchMaxStepsClimbedLastMonth(completion: @escaping (Double?, Error?) -> Void) {
+        guard let stepsType = HKObjectType.quantityType(forIdentifier: .stepCount) else {
+            completion(nil, nil) // Nessun tipo di dato trovato per i flightsClimbed
+            return
+        }
+        
+        let now = Date()
+        let calendar = Calendar.current
+        
+        // Ottieni la data di inizio dell'ultimo mese
+        guard let oneMonthAgo = calendar.date(byAdding: .month, value: -1, to: now),
+              let startOfLastMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: oneMonthAgo)),
+              let endOfLastMonth = calendar.date(byAdding: .month, value: 1, to: startOfLastMonth) else {
+            completion(nil, nil)
+            return
+        }
+        
+        let predicate = HKQuery.predicateForSamples(withStart: startOfLastMonth, end: endOfLastMonth, options: .strictStartDate)
+        
+        // Crea l'intervallo di date per la query
+        var interval = DateComponents()
+        interval.day = 1
+        
+        // Crea la HKStatisticsCollectionQuery
+        let query = HKStatisticsCollectionQuery(quantityType: stepsType, quantitySamplePredicate: predicate, options: .cumulativeSum, anchorDate: startOfLastMonth, intervalComponents: interval)
         
         query.initialResultsHandler = { query, results, error in
             guard let statsCollection = results else {

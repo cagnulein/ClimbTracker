@@ -3,13 +3,55 @@ import Foundation
 
 class ComplicationController: NSObject, CLKComplicationDataSource {
     
-    var showSteps = false
+    var timer: Timer?
+    var lastStep = 0.0
+    var lastFlight = 0.0
     
+    override init() {
+        super.init()
+        // Avvia il timer quando l'oggetto viene inizializzato
+        startTimer()
+    }
+    
+    func startTimer() {
+        timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
+            HealthKitManager.shared.fetchFlightsClimbedToday { [self]
+                f, error in
+                if(f ?? 0 != self?.lastFlight) {
+                    self?.lastFlight = f ?? 0
+                    let server = CLKComplicationServer.sharedInstance()
+                    for complication in server.activeComplications ?? [] {
+                        server.reloadTimeline(for: complication)
+                    }
+
+                }
+            }
+            HealthKitManager.shared.fetchStepsTakenToday { [self]
+                f, error in
+                if(f ?? 0 > (self?.lastStep ?? 0) + 500) {
+                    self?.lastStep = f ?? 0
+                    let server = CLKComplicationServer.sharedInstance()
+                    for complication in server.activeComplications ?? [] {
+                        server.reloadTimeline(for: complication)
+                    }
+
+                }
+            }
+        }
+    }
+        
     func getCurrentTimelineEntry(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationTimelineEntry?) -> Void) {
         print("getCurrentTimelineEntry")
-        if showSteps {
-            // Mostra i passi fatti
-            HealthKitManager.shared.fetchStepsTakenToday { stepsTaken, error in
+        // Mostra i piani saliti
+        HealthKitManager.shared.fetchFlightsClimbedToday { flightsClimbed, error in
+            guard let flightsClimbed = flightsClimbed else {
+                print("flights error")
+                handler(nil)
+                return
+            }
+            print("flightsClimbed \(flightsClimbed)")
+            
+            HealthKitManager.shared.fetchStepsTakenToday { [flightsClimbed] stepsTaken, error in
                 guard let stepsTaken = stepsTaken else {
                     print("step error")
                     handler(nil)
@@ -18,35 +60,23 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
                 
                 print("stepsTaken \(stepsTaken)")
                 
-                let template = self.createStackImageTemplate(value: stepsTaken, unit: "passi", icon: /*UIImage(named: "StepsIcon")!*/ UIImage())
-                if let template = template {
-                    let entry = CLKComplicationTimelineEntry(date: Date(), complicationTemplate: template)
-                    handler(entry)
+                if(complication.identifier == "complication1") {
+                    let template = self.createStackImageTemplate(value: flightsClimbed, unit: "flights", icon: /*UIImage(named: "StepsIcon")!*/ UIImage())
+                    if let template = template {
+                        let entry = CLKComplicationTimelineEntry(date: Date(), complicationTemplate: template)
+                        handler(entry)
+                    } else {
+                        handler(nil)
+                    }
                 } else {
-                    handler(nil)
+                    let template = self.createStackImageTemplate(value: stepsTaken, unit: "steps", icon: /*UIImage(named: "StepsIcon")!*/ UIImage())
+                    if let template = template {
+                        let entry = CLKComplicationTimelineEntry(date: Date(), complicationTemplate: template)
+                        handler(entry)
+                    } else {
+                        handler(nil)
+                    }
                 }
-                
-                self.showSteps.toggle()
-            }
-        } else {
-            // Mostra i piani saliti
-            HealthKitManager.shared.fetchFlightsClimbedToday { flightsClimbed, error in
-                guard let flightsClimbed = flightsClimbed else {
-                    print("flights error")
-                    handler(nil)
-                    return
-                }
-                print("flightsClimbed \(flightsClimbed)")
-                
-                let template = self.createStackImageTemplate(value: flightsClimbed, unit: "piani", icon: /*UIImage(named: "FlightsIcon")!*/ UIImage())
-                if let template = template {
-                    let entry = CLKComplicationTimelineEntry(date: Date(), complicationTemplate: template)
-                    handler(entry)
-                } else {
-                    handler(nil)
-                }
-                
-                self.showSteps.toggle()
             }
         }
     }
@@ -80,10 +110,10 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
             
             // For all watchOS versions:
             if complication.family == .circularSmall {
-                template = createStackImageTemplate(value: 0, unit: "passi", icon: UIImage())
+                template = createStackImageTemplate(value: 0, unit: "", icon: UIImage())
             }
             else if complication.family == .modularSmall {
-                template = createStackImageTemplate(value: 0, unit: "passi", icon: UIImage())
+                template = createStackImageTemplate(value: 0, unit: "", icon: UIImage())
             }
             else if complication.family == .utilitarianSmall {
                 let imageTemplate = CLKComplicationTemplateUtilitarianSmallSquare()
@@ -100,31 +130,66 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
         print("getComplicationDescriptors")
            let descriptor1 = CLKComplicationDescriptor(
                identifier: "complication1",
-               displayName: "Piani Saliti",
+               displayName: "Flights",
                supportedFamilies: [.graphicCircular] // Aggiungi qui altre famiglie supportate
                // Puoi specificare un'opzione di preview per ogni descriptor
            )
            
+            let descriptor2 = CLKComplicationDescriptor(
+                identifier: "complication2",
+                displayName: "Steps",
+                supportedFamilies: [.graphicCircular] // Aggiungi qui altre famiglie supportate
+                // Puoi specificare un'opzione di preview per ogni descriptor
+            )
            // Crea altri descriptors per altre complications se necessario
            
            // Restituisci un array di tutti i descriptors
-           handler([descriptor1])
+           handler([descriptor1, descriptor2])
        }
     
     private func createStackImageTemplate(value: Double, unit: String, icon: UIImage) -> CLKComplicationTemplate? {
         print("createStackImageTemplate")
-        let centerTextProvider = CLKSimpleTextProvider(text: String(value))
+        var combinedTextProvider : CLKSimpleTextProvider
+        
+        var fraction : Float = 0.0
+        var color : UIColor = .red
 
-           // Crea il fornitore di gauge per indicare il progresso
-           // Qui si assume un valore di esempio del 75% per il progresso
-           let gaugeProvider = CLKSimpleGaugeProvider(style: .fill,
-                                                      gaugeColor: .red,
-                                                      fillFraction: Float(value) / Float(HealthKitManager.shared.maxFlightLastMonth))
-           
-           // Configura il template della complication
-           let closedGaugeTextTemplate = CLKComplicationTemplateGraphicCircularClosedGaugeText(gaugeProvider: gaugeProvider, centerTextProvider: centerTextProvider)
-           
-           return closedGaugeTextTemplate
+        if(unit=="steps") {
+            fraction = Float(Int(value) % 1000) / 1000.0
+            let v = value / 1000
+            var k = "K"
+            if(v >= 10) {
+                k = ""
+            }
+            combinedTextProvider = CLKSimpleTextProvider(text: "\(Int(v))" + k, shortText: "\(unit)")
+            var f = Float(value) / Float(HealthKitManager.shared.maxStepsLastMonth)
+            if(f < 0.40) {
+                color = .orange
+            } else if(fraction < 0.60) {
+                color = .yellow
+            } else if(fraction < 0.80) {
+                color = .green
+            }
+        } else {
+            fraction = Float(value) / Float(HealthKitManager.shared.maxFlightLastMonth)
+            combinedTextProvider = CLKSimpleTextProvider(text: "\(Int(value))", shortText: "\(unit)")
+            if(fraction < 0.40) {
+                color = .orange
+            } else if(fraction < 0.60) {
+                color = .yellow
+            } else if(fraction < 0.80) {
+                color = .green
+            }
+        }
+            
+        let gaugeProvider = CLKSimpleGaugeProvider(style: .fill,
+                                                  gaugeColor: color,
+                                                  fillFraction: fraction)
+
+        // Configura il template della complication
+        let closedGaugeTextTemplate = CLKComplicationTemplateGraphicCircularClosedGaugeText(gaugeProvider: gaugeProvider, centerTextProvider: combinedTextProvider)
+
+        return closedGaugeTextTemplate
     }
     
     func getSupportedTimeTravelDirections(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationTimeTravelDirections) -> Void) {

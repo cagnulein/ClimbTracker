@@ -167,17 +167,20 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
                 color = .orange
             } else if(fraction < 0.60) {
                 color = .yellow
-            } else if(fraction < 0.80) {
+            } else if(fraction >= 0.80) {
                 color = .green
             }
         } else {
             fraction = Float(value) / Float(HealthKitManager.shared.maxFlightLastMonth)
+            if(fraction > 1) {
+                fraction = 1
+            }
             combinedTextProvider = CLKSimpleTextProvider(text: "\(Int(value))", shortText: "\(unit)")
             if(fraction < 0.40) {
                 color = .orange
             } else if(fraction < 0.60) {
                 color = .yellow
-            } else if(fraction < 0.80) {
+            } else if(fraction >= 0.80) {
                 color = .green
             }
         }

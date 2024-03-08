@@ -1,45 +1,72 @@
 import ClockKit
+import WatchKit
 import Foundation
 
-class ComplicationController: NSObject, CLKComplicationDataSource {
+class ComplicationController: NSObject, CLKComplicationDataSource, WKExtensionDelegate {
     
-    var timer: Timer?
     var lastStep = 0.0
     var lastFlight = 0.0
     
-    override init() {
-        super.init()
-        // Avvia il timer quando l'oggetto viene inizializzato
-        startTimer()
+    func applicationDidFinishLaunching() {
+        // Pianifica il primo background refresh dopo l'avvio dell'app.
+        scheduleBackgroundRefresh()
     }
     
-    func startTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
-            HealthKitManager.shared.fetchFlightsClimbedToday { [self]
-                f, error in
-                if(f ?? 0 != self?.lastFlight) {
-                    self?.lastFlight = f ?? 0
-                    let server = CLKComplicationServer.sharedInstance()
-                    for complication in server.activeComplications ?? [] {
-                        server.reloadTimeline(for: complication)
-                    }
-
-                }
+    func scheduleBackgroundRefresh() {
+        // Scegli una data per il prossimo aggiornamento. Ad esempio, 15 minuti da ora.
+        let nextUpdateTime = Date(timeIntervalSinceNow: 2 * 60)
+        WKExtension.shared().scheduleBackgroundRefresh(withPreferredDate: nextUpdateTime, userInfo: nil) { (error) in
+            if let error = error {
+                print("Errore nella programmazione del background refresh: \(error)")
+            } else {
+                print("Background refresh programmato correttamente per \(nextUpdateTime)")
             }
-            HealthKitManager.shared.fetchStepsTakenToday { [self]
-                f, error in
-                if(f ?? 0 > (self?.lastStep ?? 0) + 500) {
-                    self?.lastStep = f ?? 0
-                    let server = CLKComplicationServer.sharedInstance()
-                    for complication in server.activeComplications ?? [] {
-                        server.reloadTimeline(for: complication)
-                    }
+        }
+    }
+    
+    func handle(_ backgroundTasks: Set<WKRefreshBackgroundTask>) {
+        // Questo metodo verrà chiamato quando il sistema esegue il tuo background refresh task.
+        for task in backgroundTasks {
+            // Gestisci qui i diversi tipi di background tasks.
+            if let refreshTask = task as? WKApplicationRefreshBackgroundTask {
+                // Esegui qui il lavoro di aggiornamento necessario.
+                
+                // Esempio: aggiornamento della complication.
+                let server = CLKComplicationServer.sharedInstance()
+                for complication in server.activeComplications ?? [] {
+                    server.reloadTimeline(for: complication)
+                }
+                                
+                HealthKitManager.shared.fetchFlightsClimbedToday { [self]
+                    f, error in
+                    if(f ?? 0 != self.lastFlight) {
+                        self.lastFlight = f ?? 0
+                        let server = CLKComplicationServer.sharedInstance()
+                        for complication in server.activeComplications ?? [] {
+                            server.reloadTimeline(for: complication)
+                        }
 
+                    }
+                }
+                HealthKitManager.shared.fetchStepsTakenToday { [self]
+                    f, error in
+                    if(f ?? 0 > self.lastStep + 500) {
+                        self.lastStep = f ?? 0
+                        let server = CLKComplicationServer.sharedInstance()
+                        for complication in server.activeComplications ?? [] {
+                            server.reloadTimeline(for: complication)
+                        }
+                        // Dopo aver completato il lavoro di aggiornamento, chiama setTaskCompletedWithSnapshot per terminare il task.
+                        refreshTask.setTaskCompletedWithSnapshot(false)
+
+                        // Pianifica il prossimo background refresh.
+                        scheduleBackgroundRefresh()
+                    }
                 }
             }
         }
     }
-        
+            
     func getCurrentTimelineEntry(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationTimelineEntry?) -> Void) {
         print("getCurrentTimelineEntry")
         // Mostra i piani saliti
@@ -162,12 +189,12 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
                 k = ""
             }
             combinedTextProvider = CLKSimpleTextProvider(text: "\(Int(v))" + k, shortText: "\(unit)")
-            var f = Float(value) / Float(HealthKitManager.shared.maxStepsLastMonth)
-            if(f < 0.40) {
+            let f = Float(value) / Float(HealthKitManager.shared.maxStepsLastMonth)
+            if(f < 0.30) {
                 color = .orange
             } else if(fraction < 0.60) {
                 color = .yellow
-            } else if(fraction >= 0.80) {
+            } else if(fraction >= 1) {
                 color = .green
             }
         } else {
@@ -176,11 +203,11 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
                 fraction = 1
             }
             combinedTextProvider = CLKSimpleTextProvider(text: "\(Int(value))", shortText: "\(unit)")
-            if(fraction < 0.40) {
+            if(fraction < 0.30) {
                 color = .orange
             } else if(fraction < 0.60) {
                 color = .yellow
-            } else if(fraction >= 0.80) {
+            } else if(fraction >= 1) {
                 color = .green
             }
         }

@@ -30,13 +30,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, WKExtensionDe
             // Gestisci qui i diversi tipi di background tasks.
             if let refreshTask = task as? WKApplicationRefreshBackgroundTask {
                 // Esegui qui il lavoro di aggiornamento necessario.
-                
-                // Esempio: aggiornamento della complication.
-                let server = CLKComplicationServer.sharedInstance()
-                for complication in server.activeComplications ?? [] {
-                    server.reloadTimeline(for: complication)
-                }
-                                
+                                                
                 HealthKitManager.shared.fetchFlightsClimbedToday { [self]
                     f, error in
                     if(f ?? 0 != self.lastFlight) {

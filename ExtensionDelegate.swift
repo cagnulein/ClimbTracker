@@ -24,7 +24,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         // Questo metodo verrà chiamato quando il sistema esegue il tuo background refresh task.
         for task in backgroundTasks {
             // Gestisci qui i diversi tipi di background tasks.
-            if let refreshTask = task as? WKApplicationRefreshBackgroundTask {
+            if let refreshTask = task as? WKSnapshotRefreshBackgroundTask {
                 // Esegui qui il lavoro di aggiornamento necessario.
                 
                 // Esempio: aggiornamento della complication.
@@ -34,7 +34,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 }
                 
                 // Dopo aver completato il lavoro di aggiornamento, chiama setTaskCompletedWithSnapshot per terminare il task.
-                refreshTask.setTaskCompletedWithSnapshot(false)
+                refreshTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: Date.distantFuture, userInfo: nil)
                 
                 // Pianifica il prossimo background refresh.
                 scheduleBackgroundRefresh()

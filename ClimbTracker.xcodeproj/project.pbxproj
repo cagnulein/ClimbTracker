@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		870E709A2B8B894F007342A2 /* ClimbTracker Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 870E70992B8B894F007342A2 /* ClimbTracker Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		870E709F2B8B894F007342A2 /* ClimbTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870E709E2B8B894F007342A2 /* ClimbTrackerApp.swift */; };
 		870E70A32B8B8950007342A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 870E70A22B8B8950007342A2 /* Assets.xcassets */; };
 		870E70A62B8B8950007342A2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 870E70A52B8B8950007342A2 /* Preview Assets.xcassets */; };
@@ -16,32 +15,7 @@
 		870E70B52B8B8960007342A2 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870E70B22B8B8960007342A2 /* ComplicationController.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		870E709B2B8B894F007342A2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 870E70812B8B894D007342A2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 870E70982B8B894F007342A2;
-			remoteInfo = "ClimbTracker Watch App";
-		};
-/* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		870E70AC2B8B8950007342A2 /* Embed Watch Content */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
-			dstSubfolderSpec = 16;
-			files = (
-				870E709A2B8B894F007342A2 /* ClimbTracker Watch App.app in Embed Watch Content */,
-			);
-			name = "Embed Watch Content";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		870E70892B8B894D007342A2 /* ClimbTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClimbTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		870E70992B8B894F007342A2 /* ClimbTracker Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ClimbTracker Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		870E709E2B8B894F007342A2 /* ClimbTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbTrackerApp.swift; sourceTree = "<group>"; };
 		870E70A22B8B8950007342A2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -53,13 +27,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		870E70862B8B894D007342A2 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		870E70962B8B894F007342A2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -81,7 +48,6 @@
 		870E708A2B8B894D007342A2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				870E70892B8B894D007342A2 /* ClimbTracker.app */,
 				870E70992B8B894F007342A2 /* ClimbTracker Watch App.app */,
 			);
 			name = Products;
@@ -112,25 +78,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		870E70882B8B894D007342A2 /* ClimbTracker */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 870E70AD2B8B8950007342A2 /* Build configuration list for PBXNativeTarget "ClimbTracker" */;
-			buildPhases = (
-				870E70852B8B894D007342A2 /* Sources */,
-				870E70862B8B894D007342A2 /* Frameworks */,
-				870E70872B8B894D007342A2 /* Resources */,
-				870E70AC2B8B8950007342A2 /* Embed Watch Content */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				870E709C2B8B894F007342A2 /* PBXTargetDependency */,
-			);
-			name = ClimbTracker;
-			productName = ClimbTracker;
-			productReference = 870E70892B8B894D007342A2 /* ClimbTracker.app */;
-			productType = "com.apple.product-type.application";
-		};
 		870E70982B8B894F007342A2 /* ClimbTracker Watch App */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 870E70A92B8B8950007342A2 /* Build configuration list for PBXNativeTarget "ClimbTracker Watch App" */;
@@ -158,9 +105,6 @@
 				LastSwiftUpdateCheck = 1520;
 				LastUpgradeCheck = 1520;
 				TargetAttributes = {
-					870E70882B8B894D007342A2 = {
-						CreatedOnToolsVersion = 15.2;
-					};
 					870E70982B8B894F007342A2 = {
 						CreatedOnToolsVersion = 15.2;
 					};
@@ -179,20 +123,12 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				870E70882B8B894D007342A2 /* ClimbTracker */,
 				870E70982B8B894F007342A2 /* ClimbTracker Watch App */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		870E70872B8B894D007342A2 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		870E70972B8B894F007342A2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -205,13 +141,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		870E70852B8B894D007342A2 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		870E70952B8B894F007342A2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -224,14 +153,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		870E709C2B8B894F007342A2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 870E70982B8B894F007342A2 /* ClimbTracker Watch App */;
-			targetProxy = 870E709B2B8B894F007342A2 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		870E70A72B8B8950007342A2 /* Debug */ = {
@@ -417,75 +338,6 @@
 			};
 			name = Release;
 		};
-		870E70AE2B8B8950007342A2 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = ClimbTracker/ClimbTracker.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"ClimbTracker/Preview Content\"";
-				DEVELOPMENT_TEAM = 6335M7T29D;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = ClimbTracker;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.cagnulein.ClimbTracker;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		870E70AF2B8B8950007342A2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = ClimbTracker/ClimbTracker.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"ClimbTracker/Preview Content\"";
-				DEVELOPMENT_TEAM = 6335M7T29D;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = ClimbTracker;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.cagnulein.ClimbTracker;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -503,15 +355,6 @@
 			buildConfigurations = (
 				870E70AA2B8B8950007342A2 /* Debug */,
 				870E70AB2B8B8950007342A2 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		870E70AD2B8B8950007342A2 /* Build configuration list for PBXNativeTarget "ClimbTracker" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				870E70AE2B8B8950007342A2 /* Debug */,
-				870E70AF2B8B8950007342A2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

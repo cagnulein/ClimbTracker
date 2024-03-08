@@ -10,10 +10,10 @@
 		870E709F2B8B894F007342A2 /* ClimbTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870E709E2B8B894F007342A2 /* ClimbTrackerApp.swift */; };
 		870E70A32B8B8950007342A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 870E70A22B8B8950007342A2 /* Assets.xcassets */; };
 		870E70A62B8B8950007342A2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 870E70A52B8B8950007342A2 /* Preview Assets.xcassets */; };
-		870E70B32B8B8960007342A2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870E70B02B8B895F007342A2 /* ContentView.swift */; };
 		870E70B42B8B8960007342A2 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870E70B12B8B8960007342A2 /* HealthKitManager.swift */; };
 		870E70B52B8B8960007342A2 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870E70B22B8B8960007342A2 /* ComplicationController.swift */; };
 		8798A6692B9BBAEC00F637D3 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8798A6682B9BBAEC00F637D3 /* ExtensionDelegate.swift */; };
+		8798A66B2B9BBED000F637D3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8798A66A2B9BBED000F637D3 /* ContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,11 +21,11 @@
 		870E709E2B8B894F007342A2 /* ClimbTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbTrackerApp.swift; sourceTree = "<group>"; };
 		870E70A22B8B8950007342A2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		870E70A52B8B8950007342A2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		870E70B02B8B895F007342A2 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = ../../../../Downloads/ContentView.swift; sourceTree = "<group>"; };
 		870E70B12B8B8960007342A2 /* HealthKitManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
 		870E70B22B8B8960007342A2 /* ComplicationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
 		870E70B72B8B89A7007342A2 /* ClimbTracker Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ClimbTracker Watch App.entitlements"; sourceTree = "<group>"; };
 		8798A6682B9BBAEC00F637D3 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = SOURCE_ROOT; };
+		8798A66A2B9BBED000F637D3 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,9 +58,9 @@
 		870E709D2B8B894F007342A2 /* ClimbTracker Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				8798A66A2B9BBED000F637D3 /* ContentView.swift */,
 				870E70B72B8B89A7007342A2 /* ClimbTracker Watch App.entitlements */,
 				870E70B22B8B8960007342A2 /* ComplicationController.swift */,
-				870E70B02B8B895F007342A2 /* ContentView.swift */,
 				870E70B12B8B8960007342A2 /* HealthKitManager.swift */,
 				870E709E2B8B894F007342A2 /* ClimbTrackerApp.swift */,
 				870E70A22B8B8950007342A2 /* Assets.xcassets */,
@@ -149,10 +149,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				8798A6692B9BBAEC00F637D3 /* ExtensionDelegate.swift in Sources */,
+				8798A66B2B9BBED000F637D3 /* ContentView.swift in Sources */,
 				870E709F2B8B894F007342A2 /* ClimbTrackerApp.swift in Sources */,
 				870E70B52B8B8960007342A2 /* ComplicationController.swift in Sources */,
 				870E70B42B8B8960007342A2 /* HealthKitManager.swift in Sources */,
-				870E70B32B8B8960007342A2 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

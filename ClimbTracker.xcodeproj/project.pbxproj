@@ -371,6 +371,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = ClimbTracker;
 				INFOPLIST_KEY_CLKComplicationPrincipalClass = ClimbTracker_Watch_App.ComplicationController;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "ClimbTracker would like to read steps and stairs climbed in order to show you the widgets and the stats";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "ClimbTracker would like to read steps and stairs climbed in order to show you the widgets and the stats";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -404,6 +405,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = ClimbTracker;
 				INFOPLIST_KEY_CLKComplicationPrincipalClass = ClimbTracker_Watch_App.ComplicationController;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "ClimbTracker would like to read steps and stairs climbed in order to show you the widgets and the stats";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "ClimbTracker would like to read steps and stairs climbed in order to show you the widgets and the stats";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -432,7 +434,7 @@
 				DEVELOPMENT_TEAM = 6335M7T29D;
 				INFOPLIST_KEY_CFBundleDisplayName = ClimbTracker;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.cagnulein.ClimbTracker;
+				PRODUCT_BUNDLE_IDENTIFIER = org.cagnulein.ClimbTracker.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -452,7 +454,7 @@
 				DEVELOPMENT_TEAM = 6335M7T29D;
 				INFOPLIST_KEY_CFBundleDisplayName = ClimbTracker;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.cagnulein.ClimbTracker;
+				PRODUCT_BUNDLE_IDENTIFIER = org.cagnulein.ClimbTracker.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

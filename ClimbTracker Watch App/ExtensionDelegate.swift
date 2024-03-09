@@ -45,7 +45,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 group.notify(queue: .main) {
                     print("Both tasks are completed.")
                     // Dopo aver completato il lavoro di aggiornamento, chiama setTaskCompletedWithSnapshot per terminare il task.
-                    refreshTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: Date.distantFuture, userInfo: nil)
+                    refreshTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: Date().addingTimeInterval(600), userInfo: nil)
                     
                     // Pianifica il prossimo background refresh.
                     self.scheduleBackgroundRefresh()

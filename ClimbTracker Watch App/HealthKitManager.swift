@@ -5,6 +5,8 @@ class HealthKitManager {
     static let shared = HealthKitManager()
     public var avgFlightLastMonth = 0.0
     public var avgStepsLastMonth = 0.0
+    public var lastFligth = 0.0
+    public var lastStep = 0.0
     private init() {
         print("HealthKitManager init")
     } // Privato per Singleton
@@ -39,6 +41,15 @@ class HealthKitManager {
                 print("avgStepsLastMonth \(f ?? 0)")
                 self.avgStepsLastMonth = f ?? 0
             }
+            self.fetchFlightsClimbedToday { flightsClimbed, error in
+                print("flightsClimbed \(flightsClimbed ?? 0)")
+                self.lastFligth = flightsClimbed ?? 0
+            }
+                
+            self.fetchStepsTakenToday { stepsTaken, error in
+                print("stepsTaken \(stepsTaken ?? 0)")
+                self.lastStep = stepsTaken ?? 0
+            }
 
         }
     }
@@ -65,7 +76,6 @@ class HealthKitManager {
 
         healthStore.execute(query)
     }
-
     
     func fetchFlightsClimbedToday(completion: @escaping (Double?, Error?) -> Void) {
         guard let flightsClimbedType = HKObjectType.quantityType(forIdentifier: .flightsClimbed) else {

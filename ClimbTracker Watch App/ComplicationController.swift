@@ -7,24 +7,13 @@ class ComplicationController: NSObject, CLKComplicationDataSource, WKExtensionDe
         print("getCurrentTimelineEntry")
         // Mostra i piani saliti
         HealthKitManager.shared.fetchFlightsClimbedToday { flightsClimbed, error in
-            guard let flightsClimbed = flightsClimbed else {
-                print("flights error")
-                handler(nil)
-                return
-            }
-            print("flightsClimbed \(flightsClimbed)")
+            print("flightsClimbed \(flightsClimbed ?? 0)")
             
             HealthKitManager.shared.fetchStepsTakenToday { [flightsClimbed] stepsTaken, error in
-                guard let stepsTaken = stepsTaken else {
-                    print("step error")
-                    handler(nil)
-                    return
-                }
-                
-                print("stepsTaken \(stepsTaken)")
+                print("stepsTaken \(stepsTaken ?? 0)")
                 
                 if(complication.identifier == "complication1") {
-                    let template = self.createStackImageTemplate(value: flightsClimbed, unit: "flights", icon: /*UIImage(named: "StepsIcon")!*/ UIImage())
+                    let template = self.createStackImageTemplate(value: flightsClimbed ?? 0, unit: "flights", icon: /*UIImage(named: "StepsIcon")!*/ UIImage())
                     if let template = template {
                         let entry = CLKComplicationTimelineEntry(date: Date(), complicationTemplate: template)
                         handler(entry)
@@ -32,7 +21,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource, WKExtensionDe
                         handler(nil)
                     }
                 } else {
-                    let template = self.createStackImageTemplate(value: stepsTaken, unit: "steps", icon: /*UIImage(named: "StepsIcon")!*/ UIImage())
+                    let template = self.createStackImageTemplate(value: stepsTaken ?? 0, unit: "steps", icon: /*UIImage(named: "StepsIcon")!*/ UIImage())
                     if let template = template {
                         let entry = CLKComplicationTimelineEntry(date: Date(), complicationTemplate: template)
                         handler(entry)

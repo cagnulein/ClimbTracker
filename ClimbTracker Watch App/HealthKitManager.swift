@@ -3,17 +3,10 @@ import HealthKit
 
 class HealthKitManager {
     static let shared = HealthKitManager()
-    public var maxFlightLastMonth = 0.0
-    public var maxStepsLastMonth = 0.0
+    public var avgFlightLastMonth = 0.0
+    public var avgStepsLastMonth = 0.0
     private init() {
-        self.fetchMaxFlightsClimbedLastMonth {
-            f, error in
-            self.maxFlightLastMonth = f ?? 0
-        }
-        self.fetchMaxStepsClimbedLastMonth {
-            f, error in
-            self.maxStepsLastMonth = f ?? 0
-        }
+        print("HealthKitManager init")
     } // Privato per Singleton
 
     let healthStore = HKHealthStore()
@@ -36,6 +29,17 @@ class HealthKitManager {
 
         healthStore.requestAuthorization(toShare: [], read: [flightsClimbed, steps]) { success, error in
             completion(success, error)
+            self.fetchMaxFlightsClimbedLastMonth {
+                f, error in
+                print("avgFlightLastMonth \(f ?? 0)")
+                self.avgFlightLastMonth = f ?? 0
+            }
+            self.fetchMaxStepsClimbedLastMonth {
+                f, error in
+                print("avgStepsLastMonth \(f ?? 0)")
+                self.avgStepsLastMonth = f ?? 0
+            }
+
         }
     }
 
@@ -88,6 +92,7 @@ class HealthKitManager {
 
     func fetchMaxFlightsClimbedLastMonth(completion: @escaping (Double?, Error?) -> Void) {
         guard let flightsClimbedType = HKObjectType.quantityType(forIdentifier: .flightsClimbed) else {
+            print("Nessun tipo di dato trovato per i flightsClimbed")
             completion(nil, nil) // Nessun tipo di dato trovato per i flightsClimbed
             return
         }
@@ -97,13 +102,12 @@ class HealthKitManager {
         
         // Ottieni la data di inizio dell'ultimo mese
         guard let oneMonthAgo = calendar.date(byAdding: .month, value: -1, to: now),
-              let startOfLastMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: oneMonthAgo)),
-              let endOfLastMonth = calendar.date(byAdding: .month, value: 1, to: startOfLastMonth) else {
+              let startOfLastMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: oneMonthAgo)) else {
             completion(nil, nil)
             return
         }
         
-        let predicate = HKQuery.predicateForSamples(withStart: startOfLastMonth, end: endOfLastMonth, options: .strictStartDate)
+        let predicate = HKQuery.predicateForSamples(withStart: startOfLastMonth, end: Date(), options: .strictStartDate)
         
         // Crea l'intervallo di date per la query
         var interval = DateComponents()
@@ -118,18 +122,22 @@ class HealthKitManager {
                 return
             }
             
-            // Trova il giorno con il massimo numero di flights saliti
-            var maxFlights: Double = 0
-            statsCollection.enumerateStatistics(from: startOfLastMonth, to: endOfLastMonth) { statistics, stop in
+            // Calcola la media dei voli saliti
+            var totalFlights: Double = 0
+            var daysCounted: Double = 0
+            statsCollection.enumerateStatistics(from: startOfLastMonth, to: Date()) { statistics, stop in
                 if let sum = statistics.sumQuantity() {
                     let flights = sum.doubleValue(for: HKUnit.count())
-                    if flights > maxFlights {
-                        maxFlights = flights
+                    totalFlights += flights
+                    if flights > 0 {
+                        daysCounted += 1
                     }
                 }
             }
+
+            let averageFlights = daysCounted > 0 ? totalFlights / daysCounted : 0
             
-            completion(maxFlights, nil)
+            completion(averageFlights, nil)
         }
         
         HKHealthStore().execute(query)
@@ -146,13 +154,12 @@ class HealthKitManager {
         
         // Ottieni la data di inizio dell'ultimo mese
         guard let oneMonthAgo = calendar.date(byAdding: .month, value: -1, to: now),
-              let startOfLastMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: oneMonthAgo)),
-              let endOfLastMonth = calendar.date(byAdding: .month, value: 1, to: startOfLastMonth) else {
+              let startOfLastMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: oneMonthAgo)) else {
             completion(nil, nil)
             return
         }
         
-        let predicate = HKQuery.predicateForSamples(withStart: startOfLastMonth, end: endOfLastMonth, options: .strictStartDate)
+        let predicate = HKQuery.predicateForSamples(withStart: startOfLastMonth, end: Date(), options: .strictStartDate)
         
         // Crea l'intervallo di date per la query
         var interval = DateComponents()
@@ -167,18 +174,22 @@ class HealthKitManager {
                 return
             }
             
-            // Trova il giorno con il massimo numero di flights saliti
-            var maxFlights: Double = 0
-            statsCollection.enumerateStatistics(from: startOfLastMonth, to: endOfLastMonth) { statistics, stop in
+            // Calcola la media dei voli saliti
+            var totalFlights: Double = 0
+            var daysCounted: Double = 0
+            statsCollection.enumerateStatistics(from: startOfLastMonth, to: Date()) { statistics, stop in
                 if let sum = statistics.sumQuantity() {
                     let flights = sum.doubleValue(for: HKUnit.count())
-                    if flights > maxFlights {
-                        maxFlights = flights
+                    totalFlights += flights
+                    if flights > 0 {
+                        daysCounted += 1
                     }
                 }
             }
+
+            let averageFlights = daysCounted > 0 ? totalFlights / daysCounted : 0
             
-            completion(maxFlights, nil)
+            completion(averageFlights, nil)
         }
         
         HKHealthStore().execute(query)

@@ -114,27 +114,19 @@ class ComplicationController: NSObject, CLKComplicationDataSource, WKExtensionDe
                 k = ""
             }
             combinedTextProvider = CLKSimpleTextProvider(text: "\(Int(v))" + k, shortText: "\(unit)")
-            let f = Float(value) / Float(HealthKitManager.shared.maxStepsLastMonth)
-            if(f < 0.30) {
-                color = .orange
-            } else if(fraction < 0.60) {
-                color = .yellow
-            } else if(fraction >= 1) {
-                color = .green
-            }
+            let f = Float(value) / Float(HealthKitManager.shared.avgStepsLastMonth)
+            let redComponent = CGFloat(1 - f) // Diminuisce con l'aumentare di f
+            let greenComponent = CGFloat(f) // Aumenta con l'aumentare di f
+            color = UIColor(red: redComponent, green: greenComponent, blue: 0.0, alpha: 1.0)
         } else {
-            fraction = Float(value) / Float(HealthKitManager.shared.maxFlightLastMonth)
+            fraction = Float(value) / Float(HealthKitManager.shared.avgFlightLastMonth)
             if(fraction > 1) {
                 fraction = 1
             }
             combinedTextProvider = CLKSimpleTextProvider(text: "\(Int(value))", shortText: "\(unit)")
-            if(fraction < 0.30) {
-                color = .orange
-            } else if(fraction < 0.60) {
-                color = .yellow
-            } else if(fraction >= 1) {
-                color = .green
-            }
+            let redComponent = CGFloat(1 - fraction) // Diminuisce con l'aumentare di f
+            let greenComponent = CGFloat(fraction) // Aumenta con l'aumentare di f
+            color = UIColor(red: redComponent, green: greenComponent, blue: 0.0, alpha: 1.0)
         }
             
         let gaugeProvider = CLKSimpleGaugeProvider(style: .fill,

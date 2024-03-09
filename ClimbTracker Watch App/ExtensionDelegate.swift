@@ -44,8 +44,44 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
                 group.notify(queue: .main) {
                     print("Both tasks are completed.")
+                    let server = CLKComplicationServer.sharedInstance()
+                    for complication in server.activeComplications ?? [] {
+                        server.reloadTimeline(for: complication)
+                    }
+                    
                     // Dopo aver completato il lavoro di aggiornamento, chiama setTaskCompletedWithSnapshot per terminare il task.
                     refreshTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: Date().addingTimeInterval(600), userInfo: nil)
+                    
+                    // Pianifica il prossimo background refresh.
+                    self.scheduleBackgroundRefresh()
+
+                }
+            } else if let refreshTask = task as? WKApplicationRefreshBackgroundTask {
+                let group = DispatchGroup()
+
+                group.enter()
+                HealthKitManager.shared.fetchFlightsClimbedToday { flightsClimbed, error in
+                    print("flightsClimbed \(flightsClimbed ?? 0)")
+                    HealthKitManager.shared.lastFligth = flightsClimbed ?? 0
+                    group.leave()
+                }
+                    
+                group.enter()
+                HealthKitManager.shared.fetchStepsTakenToday { stepsTaken, error in
+                    print("stepsTaken \(stepsTaken ?? 0)")
+                    HealthKitManager.shared.lastStep = stepsTaken ?? 0
+                    group.leave()
+                }
+
+                group.notify(queue: .main) {
+                    print("Both tasks are completed.")
+                    let server = CLKComplicationServer.sharedInstance()
+                    for complication in server.activeComplications ?? [] {
+                        server.reloadTimeline(for: complication)
+                    }
+                    
+                    // Dopo aver completato il lavoro di aggiornamento, chiama setTaskCompletedWithSnapshot per terminare il task.
+                    refreshTask.setTaskCompleted()
                     
                     // Pianifica il prossimo background refresh.
                     self.scheduleBackgroundRefresh()

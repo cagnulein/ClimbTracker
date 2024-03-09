@@ -195,6 +195,15 @@ class HealthKitManager {
         HKHealthStore().execute(query)
     }
 
+    func fetchFlightsClimbedThisMonthByDay(completion: @escaping ([Int: Double]?, Error?) -> Void) {
+        fetchDataByDay(forIdentifier: .flightsClimbed, completion: completion)
+    }
+    
+    // Funzione per recuperare i passi fatti oggi per ogni ora
+    func fetchStepsThisMonthByDay(completion: @escaping ([Int: Double]?, Error?) -> Void) {
+        fetchDataByDay(forIdentifier: .stepCount, completion: completion)
+    }
+    
     func fetchFlightsClimbedTodayByHour(completion: @escaping ([Int: Double]?, Error?) -> Void) {
         fetchDataByHour(forIdentifier: .flightsClimbed, completion: completion)
     }
@@ -240,4 +249,45 @@ class HealthKitManager {
         healthStore.execute(query)
     }
 
+    // Funzione di supporto per eseguire le query HealthKit
+    private func fetchDataByDay(forIdentifier identifier: HKQuantityTypeIdentifier, completion: @escaping ([Int: Double]?, Error?) -> Void) {
+        guard let quantityType = HKQuantityType.quantityType(forIdentifier: identifier) else {
+            completion(nil, nil) // Tipo di dato non trovato
+            return
+        }
+        
+        let calendar = Calendar.current
+        let now = Date()
+        guard let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: now)),
+              let endOfMonth = calendar.date(byAdding: DateComponents(month: 1, day: -1), to: startOfMonth) else {
+            return
+        }
+
+        let predicate = HKQuery.predicateForSamples(withStart: startOfMonth, end: endOfMonth, options: .strictStartDate)
+
+        var interval = DateComponents()
+        interval.day = 1
+
+        let query = HKStatisticsCollectionQuery(quantityType: quantityType, quantitySamplePredicate: predicate, options: [.cumulativeSum], anchorDate: startOfMonth, intervalComponents: interval)
+        
+        query.initialResultsHandler = { query, results, error in
+            guard let results = results else {
+                completion(nil, error)
+                return
+            }
+            
+            var data: [Int: Double] = [:]
+            
+            results.enumerateStatistics(from: startOfMonth, to: endOfMonth) { statistics, _ in
+                let hour = Calendar.current.component(.day, from: statistics.startDate)
+                let value = statistics.sumQuantity()?.doubleValue(for: identifier == .flightsClimbed ? HKUnit.count() : HKUnit.count()) ?? 0
+                data[hour] = value
+            }
+            
+            completion(data, nil)
+        }
+        
+        healthStore.execute(query)
+    }
+    
 }

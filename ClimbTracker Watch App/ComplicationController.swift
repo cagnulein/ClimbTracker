@@ -69,9 +69,9 @@ class ComplicationController: NSObject, CLKComplicationDataSource, WKExtensionDe
             }
             else if complication.family == .utilitarianSmall {
                 let imageTemplate = CLKComplicationTemplateUtilitarianSmallSquare()
-                let imageProvider = CLKImageProvider(onePieceImage: UIImage(named: "Complication/Utilitarian")!)
-                imageProvider.tintColor = UIColor.blue
-                imageTemplate.imageProvider = imageProvider
+                //let imageProvider = CLKImageProvider(onePieceImage: UIImage(named: "Complication/Utilitarian")!)
+                //imageProvider.tintColor = UIColor.blue
+                //imageTemplate.imageProvider = imageProvider
                 template = imageTemplate
             }
             

@@ -40,23 +40,14 @@ struct ProgressComplicationView: View {
         let redComponent = CGFloat(1 - fraction) // Diminuisce con l'aumentare di f
         let greenComponent = CGFloat(fraction) // Aumenta con l'aumentare di f
         let color :Color = Color(red: redComponent, green: greenComponent, blue: 0.0)
-        if #available(watchOSApplicationExtension 10.0, *) {
-            Gauge(value: entry.stairs, in: 0...(entry.avgFlightLastMonth > entry.stairs ? entry.avgFlightLastMonth : entry.stairs)) { // Utilizza un range da 0 a 1 per il progresso
-                Text("Stairs")
-            } currentValueLabel: {
-                Text("\(Int(entry.stairs))") // Mostra il progresso come percentuale
-            }
-            .gaugeStyle(CircularGaugeStyle(tint: color)) // Stile della gauge
-            .containerBackground(for: .widget) {
-                Color.white
-            }
-        } else {
-            Gauge(value: 1, in: 0...1) { // Utilizza un range da 0 a 1 per il progresso
-                Text("Stairs")
-            } currentValueLabel: {
-                Text("\(Int(entry.stairs))") // Mostra il progresso come percentuale
-            }
-            .gaugeStyle(CircularGaugeStyle(tint: color)) // Stile della gauge
+        Gauge(value: entry.stairs, in: 0...(entry.avgFlightLastMonth > entry.stairs ? entry.avgFlightLastMonth : entry.stairs)) { // Utilizza un range da 0 a 1 per il progresso
+            Text("Stairs")
+        } currentValueLabel: {
+            Text("\(Int(entry.stairs))") // Mostra il progresso come percentuale
+        }
+        .gaugeStyle(CircularGaugeStyle(tint: color)) // Stile della gauge
+        .containerBackground(for: .widget) {
+            Color.white
         }
     }
 }
@@ -69,23 +60,14 @@ struct ProgressComplicationViewSteps: View {
         let redComponent = CGFloat(1 - fraction) // Diminuisce con l'aumentare di f
         let greenComponent = CGFloat(fraction) // Aumenta con l'aumentare di f
         let color :Color = Color(red: redComponent, green: greenComponent, blue: 0.0)
-        if #available(watchOSApplicationExtension 10.0, *) {
-            Gauge(value: entry.steps, in: 0...(entry.avgStepsLastMonth > entry.steps ? entry.avgStepsLastMonth : entry.steps)) { // Utilizza un range da 0 a 1 per il progresso
-                Text("Steps")
-            } currentValueLabel: {
-                Text("\(Int(entry.steps))") // Mostra il progresso come percentuale
-            }
-            .gaugeStyle(CircularGaugeStyle(tint: color)) // Stile della gauge
-            .containerBackground(for: .widget) {
-                Color.white
-            }
-        } else {
-            Gauge(value: 1, in: 0...1) { // Utilizza un range da 0 a 1 per il progresso
-                Text("Stairs")
-            } currentValueLabel: {
-                Text("\(Int(entry.stairs))") // Mostra il progresso come percentuale
-            }
-            .gaugeStyle(CircularGaugeStyle(tint: color)) // Stile della gauge
+        Gauge(value: entry.steps, in: 0...(entry.avgStepsLastMonth > entry.steps ? entry.avgStepsLastMonth : entry.steps)) { // Utilizza un range da 0 a 1 per il progresso
+            Text("Steps")
+        } currentValueLabel: {
+            Text("\(Int(entry.steps))") // Mostra il progresso come percentuale
+        }
+        .gaugeStyle(CircularGaugeStyle(tint: color)) // Stile della gauge
+        .containerBackground(for: .widget) {
+            Color.white
         }
     }
 }

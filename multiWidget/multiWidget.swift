@@ -41,7 +41,7 @@ struct ProgressComplicationView: View {
         let greenComponent = CGFloat(fraction) // Aumenta con l'aumentare di f
         let color :Color = Color(red: redComponent, green: greenComponent, blue: 0.0)
         if #available(watchOSApplicationExtension 10.0, *) {
-            Gauge(value: entry.stairs, in: 0...entry.avgFlightLastMonth) { // Utilizza un range da 0 a 1 per il progresso
+            Gauge(value: entry.stairs, in: 0...(entry.avgFlightLastMonth > entry.stairs ? entry.avgFlightLastMonth : entry.stairs)) { // Utilizza un range da 0 a 1 per il progresso
                 Text("Stairs")
             } currentValueLabel: {
                 Text("\(Int(entry.stairs))") // Mostra il progresso come percentuale
@@ -70,7 +70,7 @@ struct ProgressComplicationViewSteps: View {
         let greenComponent = CGFloat(fraction) // Aumenta con l'aumentare di f
         let color :Color = Color(red: redComponent, green: greenComponent, blue: 0.0)
         if #available(watchOSApplicationExtension 10.0, *) {
-            Gauge(value: entry.steps, in: 0...entry.avgStepsLastMonth) { // Utilizza un range da 0 a 1 per il progresso
+            Gauge(value: entry.steps, in: 0...(entry.avgStepsLastMonth > entry.steps ? entry.avgStepsLastMonth : entry.steps)) { // Utilizza un range da 0 a 1 per il progresso
                 Text("Steps")
             } currentValueLabel: {
                 Text("\(Int(entry.steps))") // Mostra il progresso come percentuale

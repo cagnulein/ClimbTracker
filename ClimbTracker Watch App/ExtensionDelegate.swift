@@ -10,7 +10,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     
     func scheduleBackgroundRefresh() {
         // Scegli una data per il prossimo aggiornamento. Ad esempio, 15 minuti da ora.
-        let nextUpdateTime = Date(timeIntervalSinceNow: 10 * 60)
+        let nextUpdateTime = Date(timeIntervalSinceNow: 5 * 60)
         WKExtension.shared().scheduleBackgroundRefresh(withPreferredDate: nextUpdateTime, userInfo: nil) { (error) in
             if let error = error {
                 print("Errore nella programmazione del background refresh: \(error)")
@@ -50,7 +50,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                     sharedDefaults?.set(HealthKitManager.shared.lastFligth, forKey: "stairs")
                     
                     // Dopo aver completato il lavoro di aggiornamento, chiama setTaskCompletedWithSnapshot per terminare il task.
-                    refreshTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: Date().addingTimeInterval(600), userInfo: nil)
+                    refreshTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: Date().addingTimeInterval(300), userInfo: nil)
                     
                     // Pianifica il prossimo background refresh.
                     self.scheduleBackgroundRefresh()

@@ -14,6 +14,7 @@ class HealthKitManager {
     let healthStore = HKHealthStore()
 
     func requestAuthorization(completion: @escaping (Bool, Error?) -> Void) {
+        print("requestAutorization")
         guard HKHealthStore.isHealthDataAvailable() else {
             completion(false, nil)
             return
@@ -30,25 +31,32 @@ class HealthKitManager {
         }
 
         healthStore.requestAuthorization(toShare: [], read: [flightsClimbed, steps]) { success, error in
+            
             completion(success, error)
+            let sharedDefaults = UserDefaults(suiteName: "group.climbTracker")
             self.fetchMaxFlightsClimbedLastMonth {
                 f, error in
                 print("avgFlightLastMonth \(f ?? 0)")
                 self.avgFlightLastMonth = f ?? 0
+                sharedDefaults?.set(HealthKitManager.shared.avgFlightLastMonth, forKey: "avgFlightLastMonth")
+                print("\(sharedDefaults?.double(forKey: "avgFlightLastMonth"))")
             }
             self.fetchMaxStepsClimbedLastMonth {
                 f, error in
                 print("avgStepsLastMonth \(f ?? 0)")
                 self.avgStepsLastMonth = f ?? 0
+                sharedDefaults?.set(HealthKitManager.shared.avgStepsLastMonth, forKey: "avgStepsLastMonth")
             }
             self.fetchFlightsClimbedToday { flightsClimbed, error in
                 print("flightsClimbed \(flightsClimbed ?? 0)")
                 self.lastFligth = flightsClimbed ?? 0
+                sharedDefaults?.set(HealthKitManager.shared.lastFligth, forKey: "stairs")
             }
                 
             self.fetchStepsTakenToday { stepsTaken, error in
                 print("stepsTaken \(stepsTaken ?? 0)")
                 self.lastStep = stepsTaken ?? 0
+                sharedDefaults?.set(HealthKitManager.shared.lastStep, forKey: "steps")
             }
 
         }

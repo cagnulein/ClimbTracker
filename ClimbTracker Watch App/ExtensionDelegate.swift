@@ -44,10 +44,10 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
                 group.notify(queue: .main) {
                     print("Both tasks are completed.")
-                    let server = CLKComplicationServer.sharedInstance()
-                    for complication in server.activeComplications ?? [] {
-                        server.reloadTimeline(for: complication)
-                    }
+                    
+                    let sharedDefaults = UserDefaults(suiteName: "group.climbTracker")
+                    sharedDefaults?.set(HealthKitManager.shared.lastStep, forKey: "steps")
+                    sharedDefaults?.set(HealthKitManager.shared.lastFligth, forKey: "stairs")
                     
                     // Dopo aver completato il lavoro di aggiornamento, chiama setTaskCompletedWithSnapshot per terminare il task.
                     refreshTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: Date().addingTimeInterval(600), userInfo: nil)
@@ -75,10 +75,10 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
                 group.notify(queue: .main) {
                     print("Both tasks are completed.")
-                    let server = CLKComplicationServer.sharedInstance()
-                    for complication in server.activeComplications ?? [] {
-                        server.reloadTimeline(for: complication)
-                    }
+                    
+                    let sharedDefaults = UserDefaults(suiteName: "group.climbTracker")
+                    sharedDefaults?.set(HealthKitManager.shared.lastStep, forKey: "steps")
+                    sharedDefaults?.set(HealthKitManager.shared.lastFligth, forKey: "stairs")
                     
                     // Dopo aver completato il lavoro di aggiornamento, chiama setTaskCompletedWithSnapshot per terminare il task.
                     refreshTask.setTaskCompleted()

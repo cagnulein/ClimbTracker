@@ -17,6 +17,12 @@
 		87B8A7D02B9C37B800818314 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8798A66A2B9BBED000F637D3 /* ContentView.swift */; };
 		87B8A7D12B9C37B800818314 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870E70B12B8B8960007342A2 /* HealthKitManager.swift */; };
 		87B8A7D22B9C37B800818314 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870E70B22B8B8960007342A2 /* ComplicationController.swift */; };
+		87B8A7DC2B9DBCA600818314 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87B8A7DB2B9DBCA600818314 /* WidgetKit.framework */; };
+		87B8A7DE2B9DBCA600818314 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87B8A7DD2B9DBCA600818314 /* SwiftUI.framework */; };
+		87B8A7E12B9DBCA600818314 /* multiWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B8A7E02B9DBCA600818314 /* multiWidget.swift */; };
+		87B8A7E32B9DBCA600818314 /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B8A7E22B9DBCA600818314 /* AppIntent.swift */; };
+		87B8A7E52B9DBCA800818314 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87B8A7E42B9DBCA800818314 /* Assets.xcassets */; };
+		87B8A7E92B9DBCA800818314 /* multiWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 87B8A7D92B9DBCA600818314 /* multiWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,6 +32,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 87B8A7B82B9C37AA00818314;
 			remoteInfo = "ClimbTracker Watch App";
+		};
+		87B8A7E72B9DBCA800818314 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 870E70812B8B894D007342A2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 87B8A7D82B9DBCA600818314;
+			remoteInfo = multiWidgetExtension;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -39,6 +52,17 @@
 				87B8A7BA2B9C37AA00818314 /* ClimbTracker Watch App.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		87B8A7ED2B9DBCA800818314 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				87B8A7E92B9DBCA800818314 /* multiWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -58,6 +82,14 @@
 		87B8A7C02B9C37AA00818314 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		87B8A7C22B9C37AB00818314 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		87B8A7C52B9C37AB00818314 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		87B8A7D92B9DBCA600818314 /* multiWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = multiWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		87B8A7DB2B9DBCA600818314 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		87B8A7DD2B9DBCA600818314 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		87B8A7E02B9DBCA600818314 /* multiWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = multiWidget.swift; sourceTree = "<group>"; };
+		87B8A7E22B9DBCA600818314 /* AppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntent.swift; sourceTree = "<group>"; };
+		87B8A7E42B9DBCA800818314 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		87B8A7E62B9DBCA800818314 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		87B8A7EE2B9E1A2C00818314 /* multiWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = multiWidgetExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,13 +100,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		87B8A7D62B9DBCA600818314 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87B8A7DE2B9DBCA600818314 /* SwiftUI.framework in Frameworks */,
+				87B8A7DC2B9DBCA600818314 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		870E70802B8B894D007342A2 = {
 			isa = PBXGroup;
 			children = (
+				87B8A7EE2B9E1A2C00818314 /* multiWidgetExtension.entitlements */,
 				87B8A7BD2B9C37AA00818314 /* ClimbTracker Watch App */,
+				87B8A7DF2B9DBCA600818314 /* multiWidget */,
+				87B8A7DA2B9DBCA600818314 /* Frameworks */,
 				870E708A2B8B894D007342A2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -84,6 +128,7 @@
 			children = (
 				87B8A7B42B9C37AA00818314 /* ClimbTracker.app */,
 				87B8A7B92B9C37AA00818314 /* ClimbTracker Watch App.app */,
+				87B8A7D92B9DBCA600818314 /* multiWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -123,6 +168,26 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		87B8A7DA2B9DBCA600818314 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				87B8A7DB2B9DBCA600818314 /* WidgetKit.framework */,
+				87B8A7DD2B9DBCA600818314 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		87B8A7DF2B9DBCA600818314 /* multiWidget */ = {
+			isa = PBXGroup;
+			children = (
+				87B8A7E02B9DBCA600818314 /* multiWidget.swift */,
+				87B8A7E22B9DBCA600818314 /* AppIntent.swift */,
+				87B8A7E42B9DBCA800818314 /* Assets.xcassets */,
+				87B8A7E62B9DBCA800818314 /* Info.plist */,
+			);
+			path = multiWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -150,15 +215,34 @@
 				87B8A7B52B9C37AA00818314 /* Sources */,
 				87B8A7B62B9C37AA00818314 /* Frameworks */,
 				87B8A7B72B9C37AA00818314 /* Resources */,
+				87B8A7ED2B9DBCA800818314 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				87B8A7E82B9DBCA800818314 /* PBXTargetDependency */,
 			);
 			name = "ClimbTracker Watch App";
 			productName = "ClimbTracker Watch App";
 			productReference = 87B8A7B92B9C37AA00818314 /* ClimbTracker Watch App.app */;
 			productType = "com.apple.product-type.application";
+		};
+		87B8A7D82B9DBCA600818314 /* multiWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 87B8A7EA2B9DBCA800818314 /* Build configuration list for PBXNativeTarget "multiWidgetExtension" */;
+			buildPhases = (
+				87B8A7D52B9DBCA600818314 /* Sources */,
+				87B8A7D62B9DBCA600818314 /* Frameworks */,
+				87B8A7D72B9DBCA600818314 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = multiWidgetExtension;
+			productName = multiWidgetExtension;
+			productReference = 87B8A7D92B9DBCA600818314 /* multiWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -174,6 +258,9 @@
 						CreatedOnToolsVersion = 15.3;
 					};
 					87B8A7B82B9C37AA00818314 = {
+						CreatedOnToolsVersion = 15.3;
+					};
+					87B8A7D82B9DBCA600818314 = {
 						CreatedOnToolsVersion = 15.3;
 					};
 				};
@@ -193,6 +280,7 @@
 			targets = (
 				87B8A7B32B9C37AA00818314 /* ClimbTracker */,
 				87B8A7B82B9C37AA00818314 /* ClimbTracker Watch App */,
+				87B8A7D82B9DBCA600818314 /* multiWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -214,6 +302,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		87B8A7D72B9DBCA600818314 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87B8A7E52B9DBCA800818314 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -231,6 +327,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		87B8A7D52B9DBCA600818314 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87B8A7E12B9DBCA600818314 /* multiWidget.swift in Sources */,
+				87B8A7E32B9DBCA600818314 /* AppIntent.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -238,6 +343,11 @@
 			isa = PBXTargetDependency;
 			target = 87B8A7B82B9C37AA00818314 /* ClimbTracker Watch App */;
 			targetProxy = 87B8A7BB2B9C37AA00818314 /* PBXContainerItemProxy */;
+		};
+		87B8A7E82B9DBCA800818314 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 87B8A7D82B9DBCA600818314 /* multiWidgetExtension */;
+			targetProxy = 87B8A7E72B9DBCA800818314 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -359,6 +469,7 @@
 		87B8A7C82B9C37AB00818314 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "ClimbTracker Watch App/ClimbTracker Watch App.entitlements";
@@ -369,7 +480,6 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = ClimbTracker;
-				INFOPLIST_KEY_CLKComplicationPrincipalClass = ClimbTracker_Watch_App.ComplicationController;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "ClimbTracker would like to read steps and stairs climbed in order to show you the widgets and the stats";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "ClimbTracker would like to read steps and stairs climbed in order to show you the widgets and the stats";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
@@ -386,13 +496,14 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
 		};
 		87B8A7C92B9C37AB00818314 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "ClimbTracker Watch App/ClimbTracker Watch App.entitlements";
@@ -403,7 +514,6 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = ClimbTracker;
-				INFOPLIST_KEY_CLKComplicationPrincipalClass = ClimbTracker_Watch_App.ComplicationController;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "ClimbTracker would like to read steps and stairs climbed in order to show you the widgets and the stats";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "ClimbTracker would like to read steps and stairs climbed in order to show you the widgets and the stats";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
@@ -421,7 +531,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
 		};
@@ -466,6 +576,69 @@
 			};
 			name = Release;
 		};
+		87B8A7EB2B9DBCA800818314 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = multiWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6335M7T29D;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = multiWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = multiWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.cagnulein.ClimbTracker.watchkitapp.watchkitapp.multiWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Debug;
+		};
+		87B8A7EC2B9DBCA800818314 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = multiWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6335M7T29D;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = multiWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = multiWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.cagnulein.ClimbTracker.watchkitapp.watchkitapp.multiWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -492,6 +665,15 @@
 			buildConfigurations = (
 				87B8A7CC2B9C37AB00818314 /* Debug */,
 				87B8A7CD2B9C37AB00818314 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		87B8A7EA2B9DBCA800818314 /* Build configuration list for PBXNativeTarget "multiWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				87B8A7EB2B9DBCA800818314 /* Debug */,
+				87B8A7EC2B9DBCA800818314 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -39,18 +39,19 @@ struct ContentView: View {
                         
                     }.padding(.top, 20)
                     .onAppear {
-                        // Effettua la sottoscrizione quando la vista appare
-                        cancellable = NotificationCenter.default.publisher(for: WKExtension.applicationDidBecomeActiveNotification)
-                            .sink { _ in
-                                self.fetchAllData()
-                            }
-                        
                         // Chiedi l'autorizzazione a HealthKit e carica i dati iniziali
                         HealthKitManager.shared.requestAuthorization { success, _ in
                             if success {
                                 self.fetchAllData()
                             }
                         }
+
+                        // Effettua la sottoscrizione quando la vista appare
+                        cancellable = NotificationCenter.default.publisher(for: WKExtension.applicationDidBecomeActiveNotification)
+                            .sink { _ in
+                                self.fetchAllData()
+                            }
+                        
                     }
                     .onDisappear {
                         // Cancella la sottoscrizione quando la vista scompare per evitare riferimenti circolari

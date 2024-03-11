@@ -12,12 +12,17 @@ import WatchKit
 import Foundation
 
 struct ContentView: View {    
-    @State private var flights = 0.0 // Usare private per migliorare l'incapsulamento
-    @State private var steps = 0.0 // Usare private per migliorare l'incapsulamento
+    @State private var flights = 0.0
+    @State private var steps = 0.0
+
+    @State private var avgflights = 0.0
+    @State private var avgsteps = 0.0
 
     // Dati di esempio - sostituisci con i tuoi dati reali
     @State private var flightsData: [Int: Double] = [:]
     @State private var stepsData: [Int: Double] = [:]
+    @State private var avgflightsData: [Int: Double] = [:]
+    @State private var avgstepsData: [Int: Double] = [:]    
     @State private var cancellable: AnyCancellable?
        
        var maxFlights: Double {
@@ -125,11 +130,11 @@ struct ContentView: View {
                                 self.steps = stepsData.values.reduce(0, +)
                             }
                         }
-                        .padding(.bottom, 15)
+                        .padding(.bottom, 25)
                         VStack{
                             VStack {
-                                Text("AVG Stairs: \(flights, specifier: "%.0f")")
-                                Text("AVG Steps: \(steps, specifier: "%.0f")")
+                                Text("AVG Stairs: \(avgflights, specifier: "%.0f")")
+                                Text("AVG Steps: \(avgsteps, specifier: "%.0f")")
                                 
                                 // La tua ScrollView va qui
                                 
@@ -157,11 +162,11 @@ struct ContentView: View {
                             ScrollView(.horizontal) {
                                 HStack(alignment: .bottom, spacing: 4) {
                                     // Calcola il range dinamico basato sui dati disponibili
-                                    let uniqueHours = Set(Array(flightsData.keys) + Array(stepsData.keys))
+                                    let uniqueHours = Set(Array(avgflightsData.keys) + Array(avgstepsData.keys))
                                     // Filtra per includere solo le ore con attività
                                     let filteredHours = uniqueHours.filter { hour in
-                                        let hasFlights = flightsData[hour] ?? 0 > 0
-                                        let hasSteps = stepsData[hour] ?? 0 > 50
+                                        let hasFlights = avgflightsData[hour] ?? 0 > 0
+                                        let hasSteps = avgstepsData[hour] ?? 0 > 50
                                         return hasFlights || hasSteps
                                     }
                                     
@@ -172,8 +177,8 @@ struct ContentView: View {
                                             VStack(spacing: 0) {
                                                 Spacer()
                                                 HStack(alignment: .bottom, spacing: 4) {
-                                                    // Gestisci la visualizzazione dei flights
-                                                    if let flightValue = flightsData[hour], flightValue > 0 {
+                                                    // Gestisci la visualizzazione dei avgflights
+                                                    if let flightValue = avgflightsData[hour], flightValue > 0 {
                                                         VStack {
                                                             Text("\(Int(flightValue))")
                                                                 .font(.caption2)
@@ -181,12 +186,12 @@ struct ContentView: View {
                                                                 .fill(Color.blue)
                                                                 .frame(width: 10, height: calculateBarHeight(for: flightValue, isFlight: true))
                                                         }
-                                                    } else if flightsData.keys.contains(hour) || (flightsData.keys.contains { $0 < hour } && flightsData.keys.contains { $0 > hour }) {
+                                                    } else if avgflightsData.keys.contains(hour) || (avgflightsData.keys.contains { $0 < hour } && avgflightsData.keys.contains { $0 > hour }) {
                                                         Spacer().frame(width: 10) // Mostra spazio vuoto per ore senza dati in mezzo
                                                     }
                                                     
-                                                    // Gestisci la visualizzazione dei steps
-                                                    if let stepValue = stepsData[hour], stepValue > 0 {
+                                                    // Gestisci la visualizzazione dei avgsteps
+                                                    if let stepValue = avgstepsData[hour], stepValue > 0 {
                                                         VStack {
                                                             Text("\(Int(stepValue))")
                                                                 .font(.caption2)
@@ -194,7 +199,7 @@ struct ContentView: View {
                                                                 .fill(Color.green)
                                                                 .frame(width: 10, height: calculateBarHeight(for: stepValue, isFlight: false))
                                                         }
-                                                    } else if stepsData.keys.contains(hour) || (stepsData.keys.contains { $0 < hour } && stepsData.keys.contains { $0 > hour }) {
+                                                    } else if avgstepsData.keys.contains(hour) || (avgstepsData.keys.contains { $0 < hour } && avgstepsData.keys.contains { $0 > hour }) {
                                                         Spacer().frame(width: 10) // Mostra spazio vuoto per ore senza dati in mezzo
                                                     }
                                                 }
@@ -207,17 +212,17 @@ struct ContentView: View {
                                 
                             }
                         }.onAppear {
-                            HealthKitManager.shared.fetchFlightsClimbedTodayByHour { flightsByHour, _ in
-                                self.flightsData = flightsByHour ?? [:]
-                                self.flights = flightsData.values.reduce(0, +)
+                            HealthKitManager.shared.fetchFlightsClimbedThisMonthByDay { flightsByHour, _ in
+                                self.avgflightsData = avgflightsByHour ?? [:]
+                                self.avgflights = avgflightsData.values.reduce(0, +)
                             }
                             
-                            HealthKitManager.shared.fetchStepsTodayByHour { stepsByHour, _ in
-                                self.stepsData = stepsByHour ?? [:]
-                                self.steps = stepsData.values.reduce(0, +)
+                            HealthKitManager.shared.fetchStepsThisMonthByDay { stepsByHour, _ in
+                                self.avgstepsData = avgstepsByHour ?? [:]
+                                self.avgsteps = avgstepsData.values.reduce(0, +)
                             }
                         }
-                        .padding(.bottom, 15)
+                        .padding(.bottom, 25)
                     }
                 }.tabViewStyle(PageTabViewStyle())
             }

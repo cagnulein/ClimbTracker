@@ -212,13 +212,13 @@ struct ContentView: View {
                                 
                             }
                         }.onAppear {
-                            HealthKitManager.shared.fetchFlightsClimbedThisMonthByDay { flightsByHour, _ in
-                                self.avgflightsData = avgflightsByHour ?? [:]
+                            HealthKitManager.shared.fetchFlightsClimbedThisMonthByDay { avgflightsByDay, _ in
+                                self.avgflightsData = avgflightsByDay ?? [:]
                                 self.avgflights = avgflightsData.values.reduce(0, +)
                             }
                             
-                            HealthKitManager.shared.fetchStepsThisMonthByDay { stepsByHour, _ in
-                                self.avgstepsData = avgstepsByHour ?? [:]
+                            HealthKitManager.shared.fetchStepsThisMonthByDay { avgstepsByDay, _ in
+                                self.avgstepsData = avgstepsByDay ?? [:]
                                 self.avgsteps = avgstepsData.values.reduce(0, +)
                             }
                         }

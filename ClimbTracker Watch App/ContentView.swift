@@ -184,7 +184,7 @@ struct ContentView: View {
                                                                 .font(.caption2)
                                                             Rectangle()
                                                                 .fill(Color.blue)
-                                                                .frame(width: 10, height: calculateBarHeight(for: flightValue, isFlight: true))
+                                                                .frame(width: 10, height: calculateBarHeightAVG(for: flightValue, isFlight: true))
                                                         }
                                                     } else if avgflightsData.keys.contains(hour) || (avgflightsData.keys.contains { $0 < hour } && avgflightsData.keys.contains { $0 > hour }) {
                                                         Spacer().frame(width: 10) // Mostra spazio vuoto per ore senza dati in mezzo
@@ -197,7 +197,7 @@ struct ContentView: View {
                                                                 .font(.caption2)
                                                             Rectangle()
                                                                 .fill(Color.green)
-                                                                .frame(width: 10, height: calculateBarHeight(for: stepValue, isFlight: false))
+                                                                .frame(width: 10, height: calculateBarHeightAVG(for: stepValue, isFlight: false))
                                                         }
                                                     } else if avgstepsData.keys.contains(hour) || (avgstepsData.keys.contains { $0 < hour } && avgstepsData.keys.contains { $0 > hour }) {
                                                         Spacer().frame(width: 10) // Mostra spazio vuoto per ore senza dati in mezzo
@@ -270,6 +270,12 @@ struct ContentView: View {
     private func calculateBarHeight(for value: Double, isFlight: Bool) -> CGFloat {
         // Calcola l'altezza della barra in base ai massimi valori di flights o steps
         let maxValue = isFlight ? (flightsData.values.max() ?? 0) : (stepsData.values.max() ?? 0)
+        return CGFloat(value / (maxValue == 0 ? 1 : maxValue)) * 100
+    }
+
+    private func calculateBarHeightAVG(for value: Double, isFlight: Bool) -> CGFloat {
+        // Calcola l'altezza della barra in base ai massimi valori di flights o steps
+        let maxValue = isFlight ? (avgflightsData.values.max() ?? 0) : (avgstepsData.values.max() ?? 0)
         return CGFloat(value / (maxValue == 0 ? 1 : maxValue)) * 100
     }
 }

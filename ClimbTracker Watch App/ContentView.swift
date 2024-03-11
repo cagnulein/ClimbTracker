@@ -203,7 +203,7 @@ struct ContentView: View {
                                                         Spacer().frame(width: 10) // Mostra spazio vuoto per ore senza dati in mezzo
                                                     }
                                                 }
-                                                Text("\(hour):00")
+                                                Text("\(hour)")
                                                     .font(.caption2)
                                             }
                                             .frame(height: 150)

@@ -39,7 +39,10 @@ struct ProgressComplicationView: View {
         let fraction = (Float(entry.stairs) / Float(entry.avgFlightLastMonth) > 1 ? 1 : Float(entry.stairs) / Float(entry.avgFlightLastMonth))
         let redComponent = CGFloat(1 - fraction) // Diminuisce con l'aumentare di f
         let greenComponent = CGFloat(fraction) // Aumenta con l'aumentare di f
-        let color :Color = Color(red: redComponent, green: greenComponent, blue: 0.0)
+        var color :Color = Color(red: redComponent, green: greenComponent, blue: 0.0)
+        if(fraction == 1) {
+            color = .blue
+        }
         Gauge(value: entry.stairs, in: 0...(entry.avgFlightLastMonth > entry.stairs ? entry.avgFlightLastMonth : entry.stairs)) { // Utilizza un range da 0 a 1 per il progresso
             Text("Stairs")
         } currentValueLabel: {
@@ -60,6 +63,9 @@ struct ProgressComplicationViewSteps: View {
         let redComponent = CGFloat(1 - fraction) // Diminuisce con l'aumentare di f
         let greenComponent = CGFloat(fraction) // Aumenta con l'aumentare di f
         let color :Color = Color(red: redComponent, green: greenComponent, blue: 0.0)
+        if(fraction == 1) {
+            color = .blue
+        }
         Gauge(value: entry.steps, in: 0...(entry.avgStepsLastMonth > entry.steps ? entry.avgStepsLastMonth : entry.steps)) { // Utilizza un range da 0 a 1 per il progresso
             Text("Steps")
         } currentValueLabel: {

@@ -231,6 +231,20 @@ struct ContentView: View {
                             }    
                         }
                         .padding(.bottom, 25)
+
+                        VStack{
+                            VStack {
+                                Text("Your target Stairs level is based on your monthly average of: \(avgflights, specifier: "%.0f")")
+                            }.padding(.top, 20)                                                            
+                        }
+                        .padding(.bottom, 25)
+
+                        VStack{
+                            VStack {
+                                Text("Your target Steps level is based on your monthly average of: \(avgsteps, specifier: "%.0f")")
+                            }.padding(.top, 20)                                                            
+                        }
+                        .padding(.bottom, 25)                        
                     }
                 }.tabViewStyle(PageTabViewStyle())
             }

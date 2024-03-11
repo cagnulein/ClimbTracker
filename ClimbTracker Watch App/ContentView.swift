@@ -211,16 +211,24 @@ struct ContentView: View {
                                     }
                                 
                             }
-                        }.onAppear {
+                        }.onAppear {                            
                             HealthKitManager.shared.fetchFlightsClimbedThisMonthByDay { avgflightsByDay, _ in
                                 self.avgflightsData = avgflightsByDay ?? [:]
-                                self.avgflights = avgflightsData.values.reduce(0, +)
+                                if(Double(avgflightsData.values.count) > 0) {
+                                    self.avgflights = avgflightsData.values.reduce(0, +) / Double(avgflightsData.values.count)
+                                } else {
+                                    self.avgflights = 0
+                                }            
                             }
-                            
+
                             HealthKitManager.shared.fetchStepsThisMonthByDay { avgstepsByDay, _ in
                                 self.avgstepsData = avgstepsByDay ?? [:]
-                                self.avgsteps = avgstepsData.values.reduce(0, +)
-                            }
+                                if(avgstepsData.values.count > 0) {
+                                    self.avgsteps = avgstepsData.values.reduce(0, +) / Double(avgstepsData.values.count)
+                                } else {
+                                    self.avgsteps = 0
+                                }            
+                            }    
                         }
                         .padding(.bottom, 25)
                     }
@@ -239,6 +247,24 @@ struct ContentView: View {
            self.stepsData = stepsByHour ?? [:]
            self.steps = stepsData.values.reduce(0, +)
        }
+
+        HealthKitManager.shared.fetchFlightsClimbedThisMonthByDay { avgflightsByDay, _ in
+            self.avgflightsData = avgflightsByDay ?? [:]
+            if(Double(avgflightsData.values.count) > 0) {
+                self.avgflights = avgflightsData.values.reduce(0, +) / Double(avgflightsData.values.count)
+            } else {
+                self.avgflights = 0
+            }            
+        }
+
+        HealthKitManager.shared.fetchStepsThisMonthByDay { avgstepsByDay, _ in
+            self.avgstepsData = avgstepsByDay ?? [:]
+            if(avgstepsData.values.count > 0) {
+                self.avgsteps = avgstepsData.values.reduce(0, +) / Double(avgstepsData.values.count)
+            } else {
+                self.avgsteps = 0
+            }            
+        }       
     }
     
     private func calculateBarHeight(for value: Double, isFlight: Bool) -> CGFloat {

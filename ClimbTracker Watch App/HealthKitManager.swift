@@ -34,14 +34,14 @@ class HealthKitManager {
             
             completion(success, error)
             let sharedDefaults = UserDefaults(suiteName: "group.climbTracker")
-            self.fetchMaxFlightsClimbedLastMonth {
+            self.fetchAverageQuantityLastMonth(for: .flightsClimbed) {
                 f, error in
                 print("avgFlightLastMonth \(f ?? 0)")
                 self.avgFlightLastMonth = f ?? 0
                 sharedDefaults?.set(HealthKitManager.shared.avgFlightLastMonth, forKey: "avgFlightLastMonth")
                 print("\(sharedDefaults?.double(forKey: "avgFlightLastMonth"))")
             }
-            self.fetchMaxStepsClimbedLastMonth {
+            self.fetchAverageQuantityLastMonth(for: .stepCount) {
                 f, error in
                 print("avgStepsLastMonth \(f ?? 0)")
                 self.avgStepsLastMonth = f ?? 0
@@ -213,6 +213,55 @@ class HealthKitManager {
         HKHealthStore().execute(query)
     }
 
+    func fetchAverageQuantityLastMonth(for identifier: HKQuantityTypeIdentifier, completion: @escaping (Double?, Error?) -> Void) {
+        guard let quantityType = HKObjectType.quantityType(forIdentifier: identifier) else {
+            print("Nessun tipo di dato trovato per \(identifier)")
+            completion(nil, nil) // Nessun tipo di dato trovato
+            return
+        }
+
+        let now = Date()
+        let calendar = Calendar.current
+
+        guard let oneMonthAgo = calendar.date(byAdding: .month, value: -1, to: now),
+              let startOfLastMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: oneMonthAgo)) else {
+            completion(nil, nil)
+            return
+        }
+
+        let predicate = HKQuery.predicateForSamples(withStart: startOfLastMonth, end: now, options: .strictStartDate)
+
+        var interval = DateComponents()
+        interval.day = 1
+
+        let query = HKStatisticsCollectionQuery(quantityType: quantityType, quantitySamplePredicate: predicate, options: .cumulativeSum, anchorDate: startOfLastMonth, intervalComponents: interval)
+
+        query.initialResultsHandler = { _, results, error in
+            guard let statsCollection = results else {
+                completion(nil, error)
+                return
+            }
+
+            var totalQuantity: Double = 0
+            var daysCounted: Double = 0
+            statsCollection.enumerateStatistics(from: startOfLastMonth, to: now) { statistics, _ in
+                if let sum = statistics.sumQuantity() {
+                    let quantity = sum.doubleValue(for: HKUnit.count())
+                    totalQuantity += quantity
+                    if quantity > 0 {
+                        daysCounted += 1
+                    }
+                }
+            }
+
+            let averageQuantity = daysCounted > 0 ? totalQuantity / daysCounted : 0
+            completion(averageQuantity, nil)
+        }
+
+        HKHealthStore().execute(query)
+    }
+
+    
     func fetchFlightsClimbedThisMonthByDay(completion: @escaping ([Int: Double]?, Error?) -> Void) {
         fetchDataByDay(forIdentifier: .flightsClimbed, completion: completion)
     }

@@ -12,6 +12,7 @@ import WatchKit
 import Foundation
 
 struct ContentView: View {    
+    
     @State private var flights = 0.0
     @State private var steps = 0.0
 
@@ -23,7 +24,23 @@ struct ContentView: View {
     @State private var stepsData: [Int: Double] = [:]
     @State private var avgflightsData: [Int: Double] = [:]
     @State private var avgstepsData: [Int: Double] = [:]    
+    
+    /*@State private var flights = 13.0
+    @State private var steps = 3023.0
+
+    @State private var avgflights = 15.0
+    @State private var avgsteps = 528.0
+
+    // Dati di esempio - sostituisci con i tuoi dati reali
+    @State private var flightsData: [Int: Double] = [9: 3.0, 10: 5.0, 11: 8.0, 12: 11]
+    @State private var stepsData: [Int: Double] = [9: 500.0, 10: 520.0, 11: 540.0, 12: 600]
+    @State private var avgflightsData: [Int: Double] = [1: 5.0, 2: 6.0, 3: 7.0, 4: 5]
+    @State private var avgstepsData: [Int: Double] = [1: 250.0, 2: 260.0, 3: 270.0, 4: 400]*/
+
+    
     @State private var cancellable: AnyCancellable?
+    
+    var inPreview: Bool
        
        var maxFlights: Double {
            flightsData.values.max() ?? 0
@@ -41,8 +58,9 @@ struct ContentView: View {
                     
                         VStack{
                             VStack {
-                                Text("Today's Stairs: \(flights, specifier: "%.0f")")
-                                Text("Today's Steps: \(steps, specifier: "%.0f")")
+                                Text("Today")
+                                Text("Stairs: \(flights, specifier: "%.0f")").font(.caption2)
+                                Text("Steps: \(steps, specifier: "%.0f")").font(.caption2)
                                 
                                 // La tua ScrollView va qui
                                 
@@ -92,8 +110,8 @@ struct ContentView: View {
                                                                 .font(.caption2)
                                                             Rectangle()
                                                                 .fill(Color.blue)
-                                                                .frame(width: 10, height: calculateBarHeight(for: flightValue, isFlight: true))
-                                                        }
+                                                                .frame(width: 10, height: calculateBarHeight(for: flightValue, isFlight: true)).cornerRadius(5)
+                                                        }.transition(.opacity).animation(.easeInOut(duration: 0.5), value: flightValue)
                                                     } else if flightsData.keys.contains(hour) || (flightsData.keys.contains { $0 < hour } && flightsData.keys.contains { $0 > hour }) {
                                                         Spacer().frame(width: 10) // Mostra spazio vuoto per ore senza dati in mezzo
                                                     }
@@ -105,8 +123,8 @@ struct ContentView: View {
                                                                 .font(.caption2)
                                                             Rectangle()
                                                                 .fill(Color.green)
-                                                                .frame(width: 10, height: calculateBarHeight(for: stepValue, isFlight: false))
-                                                        }
+                                                                .frame(width: 10, height: calculateBarHeight(for: stepValue, isFlight: false)).cornerRadius(5)
+                                                        }.transition(.opacity).animation(.easeInOut(duration: 0.5), value: stepValue)
                                                     } else if stepsData.keys.contains(hour) || (stepsData.keys.contains { $0 < hour } && stepsData.keys.contains { $0 > hour }) {
                                                         Spacer().frame(width: 10) // Mostra spazio vuoto per ore senza dati in mezzo
                                                     }
@@ -120,21 +138,24 @@ struct ContentView: View {
                                 }
                             }
                         }.onAppear {
-                            HealthKitManager.shared.fetchFlightsClimbedTodayByHour { flightsByHour, _ in
-                                self.flightsData = flightsByHour ?? [:]
-                                self.flights = flightsData.values.reduce(0, +)
-                            }
-                            
-                            HealthKitManager.shared.fetchStepsTodayByHour { stepsByHour, _ in
-                                self.stepsData = stepsByHour ?? [:]
-                                self.steps = stepsData.values.reduce(0, +)
+                            if(inPreview == false) {
+                                HealthKitManager.shared.fetchFlightsClimbedTodayByHour { flightsByHour, _ in
+                                    self.flightsData = flightsByHour ?? [:]
+                                    self.flights = flightsData.values.reduce(0, +)
+                                }
+                                
+                                HealthKitManager.shared.fetchStepsTodayByHour { stepsByHour, _ in
+                                    self.stepsData = stepsByHour ?? [:]
+                                    self.steps = stepsData.values.reduce(0, +)
+                                }
                             }
                         }
-                        .padding(.bottom, 25)
+                        .padding([.bottom], 35).padding([.leading, .trailing], 15)
                         VStack{
                             VStack {
-                                Text("AVG Stairs: \(avgflights, specifier: "%.0f")")
-                                Text("AVG Steps: \(avgsteps, specifier: "%.0f")")
+                                Text("Current Month")
+                                Text("AVG Stairs: \(avgflights, specifier: "%.0f")").font(.caption2)
+                                Text("AVG Steps: \(avgsteps, specifier: "%.0f")").font(.caption2)
                                 
                                 // La tua ScrollView va qui
                                 
@@ -184,7 +205,7 @@ struct ContentView: View {
                                                                 .font(.caption2)
                                                             Rectangle()
                                                                 .fill(Color.blue)
-                                                                .frame(width: 10, height: calculateBarHeightAVG(for: flightValue, isFlight: true))
+                                                                .frame(width: 10, height: calculateBarHeightAVG(for: flightValue, isFlight: true)).cornerRadius(5)
                                                         }
                                                     } else if avgflightsData.keys.contains(hour) || (avgflightsData.keys.contains { $0 < hour } && avgflightsData.keys.contains { $0 > hour }) {
                                                         Spacer().frame(width: 10) // Mostra spazio vuoto per ore senza dati in mezzo
@@ -197,7 +218,7 @@ struct ContentView: View {
                                                                 .font(.caption2)
                                                             Rectangle()
                                                                 .fill(Color.green)
-                                                                .frame(width: 10, height: calculateBarHeightAVG(for: stepValue, isFlight: false))
+                                                                .frame(width: 10, height: calculateBarHeightAVG(for: stepValue, isFlight: false)).cornerRadius(5)
                                                         }
                                                     } else if avgstepsData.keys.contains(hour) || (avgstepsData.keys.contains { $0 < hour } && avgstepsData.keys.contains { $0 > hour }) {
                                                         Spacer().frame(width: 10) // Mostra spazio vuoto per ore senza dati in mezzo
@@ -212,40 +233,53 @@ struct ContentView: View {
                                 
                             }
                         }.onAppear {                            
-                            HealthKitManager.shared.fetchFlightsClimbedThisMonthByDay { avgflightsByDay, _ in
-                                self.avgflightsData = avgflightsByDay ?? [:]
-                                if(Double(avgflightsData.values.count) > 0) {
-                                    self.avgflights = avgflightsData.values.reduce(0, +) / Double(avgflightsData.values.count)
-                                } else {
-                                    self.avgflights = 0
-                                }            
+                            if(inPreview == false) {
+                                HealthKitManager.shared.fetchFlightsClimbedThisMonthByDay { avgflightsByDay, _ in
+                                    self.avgflightsData = avgflightsByDay ?? [:]
+                                    if(Double(avgflightsData.values.count) > 0) {
+                                        self.avgflights = avgflightsData.values.reduce(0, +) / Double(avgflightsData.values.count)
+                                    } else {
+                                        self.avgflights = 0
+                                    }
+                                }
+                                
+                                HealthKitManager.shared.fetchStepsThisMonthByDay { avgstepsByDay, _ in
+                                    self.avgstepsData = avgstepsByDay ?? [:]
+                                    if(avgstepsData.values.count > 0) {
+                                        self.avgsteps = avgstepsData.values.reduce(0, +) / Double(avgstepsData.values.count)
+                                    } else {
+                                        self.avgsteps = 0
+                                    }
+                                }
                             }
-
-                            HealthKitManager.shared.fetchStepsThisMonthByDay { avgstepsByDay, _ in
-                                self.avgstepsData = avgstepsByDay ?? [:]
-                                if(avgstepsData.values.count > 0) {
-                                    self.avgsteps = avgstepsData.values.reduce(0, +) / Double(avgstepsData.values.count)
-                                } else {
-                                    self.avgsteps = 0
-                                }            
-                            }    
                         }
-                        .padding(.bottom, 25)
-
-                        VStack{
-                            VStack {
-                                Text("Your target Stairs level is based on your monthly average of: \(avgflights, specifier: "%.0f")")
-                            }.padding(.top, 20)                                                            
-                        }
-                        .padding(.bottom, 25)
-
-                        VStack{
-                            VStack {
-                                Text("Your target Steps level is based on your monthly average of: \(avgsteps, specifier: "%.0f")")
-                            }.padding(.top, 20)                                                            
-                        }
-                        .padding(.bottom, 25)                        
+                        .padding([.bottom], 35).padding([.leading, .trailing], 15)
                     }
+                    VStack{
+                        VStack {
+                            Text("Your target Stairs level in the widget is based on your monthly average of:")
+                                .fixedSize(horizontal: false, vertical: true)
+                                .lineLimit(nil) // Assicurati che il limite di linee sia impostato su nil per permettere un numero illimitato di righe
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .multilineTextAlignment(.center)
+                            Spacer()
+                            Text("\(avgflights, specifier: "%.0f")").font(.title)
+                        }.padding(.top, 20)
+                    }
+                    .padding(.bottom, 25)
+
+                    VStack{
+                        VStack {
+                            Text("Your target Steps level in the widget is based on your monthly average of:")
+                                .fixedSize(horizontal: false, vertical: true)
+                                .lineLimit(nil) // Assicurati che il limite di linee sia impostato su nil per permettere un numero illimitato di righe
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .multilineTextAlignment(.center)
+                            Spacer()
+                            Text("\(avgsteps, specifier: "%.0f")").font(.title)
+                        }.padding(.top, 20)
+                    }
+                    .padding(.bottom, 25)    
                 }.tabViewStyle(PageTabViewStyle())
             }
         }
@@ -262,23 +296,21 @@ struct ContentView: View {
            self.steps = stepsData.values.reduce(0, +)
        }
 
+        HealthKitManager.shared.fetchAverageQuantityLastMonth(for: .flightsClimbed) { data, _ in
+            self.avgflights = data ?? 0
+        }
+        
+        HealthKitManager.shared.fetchAverageQuantityLastMonth(for: .stepCount) { data, _ in
+            self.avgsteps = data ?? 0
+        }
+        
         HealthKitManager.shared.fetchFlightsClimbedThisMonthByDay { avgflightsByDay, _ in
             self.avgflightsData = avgflightsByDay ?? [:]
-            if(Double(avgflightsData.values.count) > 0) {
-                self.avgflights = avgflightsData.values.reduce(0, +) / Double(avgflightsData.values.count)
-            } else {
-                self.avgflights = 0
-            }            
         }
 
         HealthKitManager.shared.fetchStepsThisMonthByDay { avgstepsByDay, _ in
             self.avgstepsData = avgstepsByDay ?? [:]
-            if(avgstepsData.values.count > 0) {
-                self.avgsteps = avgstepsData.values.reduce(0, +) / Double(avgstepsData.values.count)
-            } else {
-                self.avgsteps = 0
-            }            
-        }       
+        }
     }
     
     private func calculateBarHeight(for value: Double, isFlight: Bool) -> CGFloat {
@@ -296,5 +328,5 @@ struct ContentView: View {
 
 
 #Preview {
-    ContentView()
+    ContentView(inPreview: true)
 }

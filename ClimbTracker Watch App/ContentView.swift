@@ -264,6 +264,8 @@ struct ContentView: View {
                                 .multilineTextAlignment(.center)
                             Spacer()
                             Text("\(avgflights, specifier: "%.0f")").font(.title)
+                            Text("or \(avgflights * 3, specifier: "%.0f") meters").font(.footnote)
+                            Text("or \(avgflights * 10, specifier: "%.0f") feet").font(.footnote)
                         }.padding(.top, 20)
                     }
                     .padding(.bottom, 25)

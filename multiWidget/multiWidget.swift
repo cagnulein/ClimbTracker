@@ -33,45 +33,83 @@ class ProgressProvider: TimelineProvider {
 
 // Definisce l'interfaccia utente della complication
 struct ProgressComplicationView: View {
-    var entry: ProgressProvider.Entry
-
-    var body: some View {
-        let fraction = (Float(entry.stairs) / Float(entry.avgFlightLastMonth) > 1 ? 1 : Float(entry.stairs) / Float(entry.avgFlightLastMonth))
-        let redComponent = CGFloat(1 - fraction) // Diminuisce con l'aumentare di f
-        let greenComponent = CGFloat(fraction) // Aumenta con l'aumentare di f
-        let color :Color = (fraction == 1 ? .blue : Color(red: redComponent, green: greenComponent, blue: 0.0))
-        Gauge(value: entry.stairs, in: 0...(entry.avgFlightLastMonth > entry.stairs ? entry.avgFlightLastMonth : entry.stairs)) { // Utilizza un range da 0 a 1 per il progresso
-            Text("Stairs")
-        } currentValueLabel: {
-            Text("\(Int(entry.stairs))") // Mostra il progresso come percentuale
+    enum MeasurementUnit {
+        case stairs, meters, feet, steps
+    }
+    
+    var entry: ProgressEntry
+    var unit: MeasurementUnit
+    
+    private func labelText() -> String {
+        switch unit {
+        case .stairs:
+            return "Stairs"
+        case .meters:
+            return "Meters"
+        case .feet:
+            return "Feet"
+        case .steps:
+            return "Steps"
         }
-        .gaugeStyle(CircularGaugeStyle(tint: color)) // Stile della gauge
+    }
+    
+    private func currentValueText() -> String {
+        switch unit {
+        case .stairs:
+            return "\(Int(entry.stairs))"
+        case .meters:
+            return "\(Int(entry.stairs * 3))"
+        case .feet:
+            return "\(Int(entry.stairs * 10))"
+        case .steps:
+            return "\(Int(entry.steps))"
+        }
+    }
+    
+    private func gaugeValue() -> Double {
+        switch unit {
+        case .stairs, .meters, .feet:
+            return entry.stairs
+        case .steps:
+            return entry.steps
+        }
+    }
+    
+    private func maxValue() -> Double {
+        switch unit {
+        case .stairs, .meters, .feet:
+            return max(entry.avgFlightLastMonth, entry.stairs)
+        case .steps:
+            return max(entry.avgStepsLastMonth, entry.steps)
+        }
+    }
+    
+    private func gaugeColor() -> Color {
+        let fraction: Float
+        switch unit {
+        case .stairs, .meters, .feet:
+            fraction = min(Float(entry.stairs) / Float(entry.avgFlightLastMonth), 1)
+        case .steps:
+            fraction = min(Float(entry.steps) / Float(entry.avgStepsLastMonth), 1)
+        }
+        
+        let redComponent = CGFloat(1 - fraction)
+        let greenComponent = CGFloat(fraction)
+        return fraction == 1 ? .blue : Color(red: redComponent, green: greenComponent, blue: 0.0)
+    }
+    
+    var body: some View {
+        Gauge(value: gaugeValue(), in: 0...maxValue()) {
+            Text(labelText())
+        } currentValueLabel: {
+            Text(currentValueText())
+        }
+        .gaugeStyle(CircularGaugeStyle(tint: gaugeColor()))
         .containerBackground(for: .widget) {
             Color.white
         }
     }
 }
-
-struct ProgressComplicationViewSteps: View {
-    var entry: ProgressProvider.Entry
-
-    var body: some View {
-        let fraction = (Float(entry.steps) / Float(entry.avgStepsLastMonth) > 1 ? 1 : Float(entry.steps) / Float(entry.avgStepsLastMonth))
-        let redComponent = CGFloat(1 - fraction) // Diminuisce con l'aumentare di f
-        let greenComponent = CGFloat(fraction) // Aumenta con l'aumentare di f
-        let color :Color = (fraction == 1 ? .blue : Color(red: redComponent, green: greenComponent, blue: 0.0))
-        Gauge(value: entry.steps, in: 0...(entry.avgStepsLastMonth > entry.steps ? entry.avgStepsLastMonth : entry.steps)) { // Utilizza un range da 0 a 1 per il progresso
-            Text("Steps")
-        } currentValueLabel: {
-            Text("\(Int(entry.steps))") // Mostra il progresso come percentuale
-        }
-        .gaugeStyle(CircularGaugeStyle(tint: color)) // Stile della gauge
-        .containerBackground(for: .widget) {
-            Color.white
-        }
-    }
-}
-
 
 // Configura e registra la complication
 @main
@@ -79,6 +117,8 @@ struct ProgressComplication: WidgetBundle {
    var body: some Widget {
        stairs()
        steps()
+       meters()
+       feet()
    }
 }
 
@@ -86,11 +126,32 @@ struct stairs: Widget {
     let kind: String = "Stairs"
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: ProgressProvider()) { entry in
-            ProgressComplicationView(entry: entry)
+            ProgressComplicationView(entry: entry, unit: .stairs)
         }
         .supportedFamilies([.accessoryCircular]) // Specifica le famiglie di complication supportate
         .configurationDisplayName("Stairs")
-        .description("Mostra il progresso in una gauge circolare.")
+    }
+}
+
+struct meters: Widget {
+    let kind: String = "Meters"
+    var body: some WidgetConfiguration {
+        StaticConfiguration(kind: kind, provider: ProgressProvider()) { entry in
+            ProgressComplicationView(entry: entry, unit: .meters)
+        }
+        .supportedFamilies([.accessoryCircular]) // Specifica le famiglie di complication supportate
+        .configurationDisplayName("Meters")
+    }
+}
+
+struct feet: Widget {
+    let kind: String = "Feet"
+    var body: some WidgetConfiguration {
+        StaticConfiguration(kind: kind, provider: ProgressProvider()) { entry in
+            ProgressComplicationView(entry: entry, unit: .feet)
+        }
+        .supportedFamilies([.accessoryCircular]) // Specifica le famiglie di complication supportate
+        .configurationDisplayName("Feet")
     }
 }
 
@@ -98,15 +159,14 @@ struct steps: Widget {
     let kind: String = "Steps"
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: ProgressProvider()) { entry in
-            ProgressComplicationViewSteps(entry: entry)
+            ProgressComplicationView(entry: entry, unit: .steps)
         }
         .supportedFamilies([.accessoryCircular]) // Specifica le famiglie di complication supportate
         .configurationDisplayName("Steps")
-        .description("Mostra il progresso in una gauge circolare.")
     }
 }
 
 
 #Preview {
-    ProgressComplicationView(entry: ProgressEntry.init(date: Date(), stairs: 6, steps: 2000, avgFlightLastMonth: 10, avgStepsLastMonth: 10000))
+    ProgressComplicationView(entry: ProgressEntry.init(date: Date(), stairs: 6, steps: 2000, avgFlightLastMonth: 10, avgStepsLastMonth: 10000), unit: .meters)
 }

@@ -54,13 +54,12 @@ struct ContentView: View {
     @State private var last7DaysFlights: [Double] = []
 
 
-    private func calculateTrend(for last7DaysData: [Double], comparedTo previousData: [Double]) -> String {
+    private func calculateTrend(for last7DaysData: [Double], comparedTo previousData: Double) -> String {
         let last7DaysAverage = last7DaysData.reduce(0, +) / Double(last7DaysData.count)
-        let previousAverage = previousData.reduce(0, +) / Double(previousData.count)
         
-        let difference = last7DaysAverage / previousAverage
+        let difference = last7DaysAverage / previousData
         
-
+        print("\(difference) \(last7DaysAverage)")
         if difference >= 1.1 {
             if difference > 1.2 { // Aumento significativo
                 return "increasing_significantly"
@@ -87,9 +86,9 @@ struct ContentView: View {
                             Spacer()
                             if(last7DaysSteps.count >= 7) {    
                                 // Trend per i Steps
-                                let trendSteps = calculateTrend(for: last7DaysSteps, comparedTo: avgstepsData.values.map { Double($0) })
+                                let trendSteps = calculateTrend(for: last7DaysSteps, comparedTo: avgsteps)
                                 // Trend per i Flights
-                                let trendFlights = calculateTrend(for: last7DaysFlights, comparedTo: avgflightsData.values.map { Double($0) })
+                                let trendFlights = calculateTrend(for: last7DaysFlights, comparedTo: avgflights)
 
                                 // Feedback per i Steps
                                 switch trendSteps {

@@ -376,10 +376,15 @@ class HealthKitManager {
 
         let calendar = Calendar.current
         let now = Date()
-        guard let startOfSevenDaysAgo = calendar.date(from: calendar.dateComponents([.year, .month], from: now)),
-              let endOfMonth = calendar.date(byAdding: DateComponents(day: -7), to: startOfSevenDaysAgo) else {
+        let calendar = Calendar.current
+
+        // Calcola la data di 7 giorni fa
+        guard let sevenDaysAgo = calendar.date(byAdding: .day, value: -7, to: now) else {
             return
         }
+
+        // Ottiene l'inizio del giorno per la data di 7 giorni fa
+        let startOfSevenDaysAgo = calendar.startOfDay(for: sevenDaysAgo)
         
         let predicate = HKQuery.predicateForSamples(withStart: startOfSevenDaysAgo, end: now, options: .strictStartDate)
 

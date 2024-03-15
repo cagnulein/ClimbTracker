@@ -58,17 +58,17 @@ struct ContentView: View {
         let last7DaysAverage = last7DaysData.reduce(0, +) / Double(last7DaysData.count)
         let previousAverage = previousData.reduce(0, +) / Double(previousData.count)
         
-        let difference = last7DaysAverage - previousAverage
+        let difference = last7DaysAverage / previousAverage
         
 
         if difference >= 1.1 {
-            if difference / previousAverage > 1.2 { // Aumento significativo
+            if difference > 1.2 { // Aumento significativo
                 return "increasing_significantly"
             } else { // Aumento lieve
                 return "increasing_slightly"
             }
         } else if difference <= 0.9 {
-            if abs(difference / previousAverage) > 1.2 { // Diminuzione significativa
+            if difference > 1.2 { // Diminuzione significativa
                 return "decreasing_significantly"
             } else { // Diminuzione lieve
                 return "decreasing_slightly"

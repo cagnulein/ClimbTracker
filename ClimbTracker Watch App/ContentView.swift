@@ -268,6 +268,7 @@ struct ContentView: View {
                             Text("or \(avgflights * 10, specifier: "%.0f") feet").font(.footnote)
                             Spacer()
                             ProgressView(value: self.flights, total: self.avgflights ).progressViewStyle(.linear)
+                            Text("Current: \(Int(self.flights))").font(.footnote)
                         }.padding(.top, 20)
                     }
                     .padding(.bottom, 25)
@@ -283,6 +284,8 @@ struct ContentView: View {
                             Text("\(avgsteps, specifier: "%.0f")").font(.title)
                             Spacer()
                             ProgressView(value: self.steps, total: self.avgsteps ).progressViewStyle(.linear)
+                            Text("Current: \(Int(self.steps))").font(.footnote)
+                               
                         }.padding(.top, 20)
                     }
                     .padding(.bottom, 25)    

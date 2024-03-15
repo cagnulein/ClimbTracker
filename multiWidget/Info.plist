@@ -6,6 +6,8 @@
 	<dict>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.widgetkit-extension</string>
+		<key>NSPrivacyAccessedAPICategoryUserDefaults</key>
+		<string>the app uses the user defaults to save its settings</string>
 	</dict>
 </dict>
 </plist>

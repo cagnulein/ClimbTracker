@@ -93,20 +93,50 @@ struct ContentView: View {
                         // Feedback per i Steps
                         switch trendSteps {
                         case "increasing_significantly":
+                        HStack {
+                            Image(systemName: "arrow.up.circle.fill").foregroundColor(.green)   
                             Text("Your step count has greatly increased, excellent job!").foregroundColor(.green)
-                            Image(systemName: "arrow.up.circle.fill").foregroundColor(.green)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .lineLimit(nil)
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .multilineTextAlignment(.center)
+                        }
                         case "increasing_slightly":
-                            Text("Your steps are slightly up. Keep it up!").foregroundColor(.green)
+                        HStack {
                             Image(systemName: "arrow.up.circle").foregroundColor(.green)
+                            Text("Your steps are slightly up. Keep it up!").foregroundColor(.green)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .lineLimit(nil)
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .multilineTextAlignment(.center)
+                        }
                         case "decreasing_significantly":
-                            Text("Your step count has significantly decreased, try to move more!").foregroundColor(.red)
+                        HStack {
                             Image(systemName: "arrow.down.circle.fill").foregroundColor(.red)
+                            Text("Your step count has significantly decreased, try to move more!").foregroundColor(.red)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .lineLimit(nil)
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .multilineTextAlignment(.center)
+                        }
                         case "decreasing_slightly":
-                            Text("You've slowed down a bit in steps. Every step counts!").foregroundColor(.red)
+                        HStack {
                             Image(systemName: "arrow.down.circle").foregroundColor(.red)
+                            Text("You've slowed down a bit in steps. Every step counts!").foregroundColor(.red)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .lineLimit(nil)
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .multilineTextAlignment(.center)
+                        }
                         default:
-                            Text("You're keeping a consistent pace in steps, well done!").foregroundColor(.blue)
+                        HStack {
                             Image(systemName: "equal.circle.fill").foregroundColor(.blue)
+                            Text("You're keeping a consistent pace in steps, well done!").foregroundColor(.blue)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .lineLimit(nil)
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .multilineTextAlignment(.center)
+                        }
                         }
 
                         Spacer().frame(height: 20) // Aggiunge spazio tra i feedback dei steps e dei flights
@@ -114,20 +144,50 @@ struct ContentView: View {
                         // Feedback per i Flights
                         switch trendFlights {
                         case "increasing_significantly":
-                            Text("You've climbed significantly more stairs, amazing effort!").foregroundColor(.green)
+                        HStack {
                             Image(systemName: "arrow.up.circle.fill").foregroundColor(.green)
+                            Text("You've climbed significantly more stairs, amazing effort!").foregroundColor(.green)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .lineLimit(nil)
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .multilineTextAlignment(.center)
+                        }
                         case "increasing_slightly":
-                            Text("A slight increase in stairs climbed. Good job!").foregroundColor(.green)
+                        HStack {
                             Image(systemName: "arrow.up.circle").foregroundColor(.green)
+                            Text("A slight increase in stairs climbed. Good job!").foregroundColor(.green)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .lineLimit(nil)
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .multilineTextAlignment(.center)
+                        }
                         case "decreasing_significantly":
-                            Text("There's a significant drop in your stairs climbing. Let's aim higher!").foregroundColor(.red)
+                        HStack {
                             Image(systemName: "arrow.down.circle.fill").foregroundColor(.red)
+                            Text("There's a significant drop in your stairs climbing. Let's aim higher!").foregroundColor(.red)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .lineLimit(nil)
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .multilineTextAlignment(.center)
+                        }
                         case "decreasing_slightly":
-                            Text("You've climbed fewer stairs lately. Every floor counts!").foregroundColor(.red)
-                            Image(systemName: "arrow.down.circle").foregroundColor(.red)
+                            HStack {                                
+                                Image(systemName: "arrow.down.circle").foregroundColor(.red)
+                                Text("You've climbed fewer stairs lately. Every floor counts!").foregroundColor(.red)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .lineLimit(nil)
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .multilineTextAlignment(.center)
+                            }
                         default:
-                            Text("Your pace in climbing stairs is consistent, nicely done!").foregroundColor(.blue)
-                            Image(systemName: "equal.circle.fill").foregroundColor(.blue)
+                            HStack {
+                                Image(systemName: "equal.circle.fill").foregroundColor(.blue)
+                                Text("Your pace in climbing stairs is consistent, nicely done!").foregroundColor(.blue)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .lineLimit(nil)
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .multilineTextAlignment(.center)
+                            }
                         }
                     }
                     .padding().onAppear {

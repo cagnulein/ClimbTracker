@@ -378,10 +378,11 @@ class HealthKitManager {
         let calendar = Calendar.current
 
         // Calcola la data di 7 giorni fa
-        guard let sevenDaysAgo = calendar.date(byAdding: .day, value: -7, to: now) else {
+        guard let yesterday = calendar.date(byAdding: .day, value: -1, to: now),
+              let sevenDaysAgo = calendar.date(byAdding: .day, value: -7, to: yesterday) else {
             return
         }
-
+        
         // Ottiene l'inizio del giorno per la data di 7 giorni fa
         let startOfSevenDaysAgo = calendar.startOfDay(for: sevenDaysAgo)
         

@@ -411,7 +411,7 @@ struct ContentView: View {
                                 .frame(maxWidth: .infinity, alignment: .center)
                                 .multilineTextAlignment(.center)
                             Spacer()
-                            Text("\(avgflights, specifier: "%.0f")").font(.title)
+                            Text("\(avgflights, specifier: "%.0f")").font(.title).foregroundColor(colorProgressBar(fraction: self.avgflights - self.flights))
                             Text("or \(avgflights * 3, specifier: "%.0f") meters").font(.footnote)
                             Text("or \(avgflights * 10, specifier: "%.0f") feet").font(.footnote)
                             Spacer()
@@ -429,7 +429,7 @@ struct ContentView: View {
                                 .frame(maxWidth: .infinity, alignment: .center)
                                 .multilineTextAlignment(.center)
                             Spacer()
-                            Text("\(avgsteps, specifier: "%.0f")").font(.title)
+                            Text("\(avgsteps, specifier: "%.0f")").font(.title).foregroundColor(colorProgressBar(fraction: self.avgsteps - self.steps))
                             Spacer()
                             ProgressView(value: self.steps, total: self.avgsteps ).progressViewStyle(.linear)
                             Text("Current: \(Int(self.steps))").font(.footnote)
@@ -481,6 +481,12 @@ struct ContentView: View {
                 self.last7DaysFlights = flightsData ?? []
             }
         }        
+    }
+    
+    private func colorProgressBar(fraction: Double) -> Color {
+        let redComponent = CGFloat(1 - fraction)
+        let greenComponent = CGFloat(fraction)
+        return fraction < 0 ? .blue : Color(red: redComponent, green: greenComponent, blue: 0.0)
     }
     
     private func calculateBarHeight(for value: Double, isFlight: Bool) -> CGFloat {

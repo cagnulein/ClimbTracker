@@ -82,10 +82,10 @@ struct ContentView: View {
         GeometryReader { geometry in
             VStack {
                 TabView {                    
-                        VStack {
-                            if(last7DaysSteps.count >= 7) {
-                                Text("7-Day Trend").font(.headline)
-                                
+                        VStack {                            
+                            Text("7-Day Trend").font(.headline)
+
+                            if(last7DaysSteps.count >= 7) {    
                                 // Trend per i Steps
                                 let trendSteps = calculateTrend(for: last7DaysSteps, comparedTo: avgstepsData.values.map { Double($0) })
                                 // Trend per i Flights
@@ -204,7 +204,7 @@ struct ContentView: View {
                         .padding().onAppear {
                             fetchAllData()
                         }                
-                    }    
+    
                         VStack{
                             VStack {
                                 Text("Today")

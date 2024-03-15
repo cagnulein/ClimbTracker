@@ -131,15 +131,15 @@ struct ContentView: View {
                         }
                     }
                     .padding().onAppear {
-                        HealthKitManager.shared.fetchLast7DaysSteps { [weak self] stepsData, _ in
+                        HealthKitManager.shared.fetchLast7DaysSteps { [self] stepsData, _ in
                             DispatchQueue.main.async {
-                                self?.last7DaysSteps = stepsData ?? []
+                                self.last7DaysSteps = stepsData ?? []
                             }
                         }
 
-                        HealthKitManager.shared.fetchLast7DaysFlights { [weak self] flightsData, _ in
+                        HealthKitManager.shared.fetchLast7DaysFlights { [self] flightsData, _ in
                             DispatchQueue.main.async {
-                                self?.last7DaysFlights = flightsData ?? []
+                                self.last7DaysFlights = flightsData ?? []
                             }
                         }                        
                     }                    
@@ -409,15 +409,15 @@ struct ContentView: View {
             self.avgstepsData = avgstepsByDay ?? [:]
         }
 
-        HealthKitManager.shared.fetchLast7DaysSteps { [weak self] stepsData, _ in
+        HealthKitManager.shared.fetchLast7DaysSteps { [self] stepsData, _ in
             DispatchQueue.main.async {
-                self?.last7DaysSteps = stepsData ?? []
+                self.last7DaysSteps = stepsData ?? []
             }
         }
 
-        HealthKitManager.shared.fetchLast7DaysFlights { [weak self] flightsData, _ in
+        HealthKitManager.shared.fetchLast7DaysFlights { [self] flightsData, _ in
             DispatchQueue.main.async {
-                self?.last7DaysFlights = flightsData ?? []
+                self.last7DaysFlights = flightsData ?? []
             }
         }        
     }

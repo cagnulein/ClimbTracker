@@ -375,13 +375,12 @@ class HealthKitManager {
         }
 
         let calendar = Calendar.current
-        guard let sevenDaysAgo = calendar.date(byAdding: .day, value: -7, to: Date()),
-            let startOfSevenDaysAgo = calendar.startOfDay(for: sevenDaysAgo) else {
-            completion(nil, nil)
+        let now = Date()
+        guard let startOfSevenDaysAgo = calendar.date(from: calendar.dateComponents([.year, .month], from: now)),
+              let endOfMonth = calendar.date(byAdding: DateComponents(day: -7), to: startOfSevenDaysAgo) else {
             return
         }
-
-        let now = Date()
+        
         let predicate = HKQuery.predicateForSamples(withStart: startOfSevenDaysAgo, end: now, options: .strictStartDate)
 
         var interval = DateComponents()

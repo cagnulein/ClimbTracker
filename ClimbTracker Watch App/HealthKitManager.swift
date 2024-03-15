@@ -356,5 +356,57 @@ class HealthKitManager {
         
         healthStore.execute(query)
     }
+
+    // Funzione per recuperare i dati dei passi degli ultimi 7 giorni
+    func fetchLast7DaysSteps(completion: @escaping ([Double]?, Error?) -> Void) {
+        fetchDataForLast7Days(forIdentifier: .stepCount, completion: completion)
+    }
+
+    // Funzione per recuperare i dati dei voli di scale degli ultimi 7 giorni
+    func fetchLast7DaysFlights(completion: @escaping ([Double]?, Error?) -> Void) {
+        fetchDataForLast7Days(forIdentifier: .flightsClimbed, completion: completion)
+    }
+
+    // Funzione di supporto per eseguire le query HealthKit per gli ultimi 7 giorni
+    private func fetchDataForLast7Days(forIdentifier identifier: HKQuantityTypeIdentifier, completion: @escaping ([Double]?, Error?) -> Void) {
+        guard let quantityType = HKQuantityType.quantityType(forIdentifier: identifier) else {
+            completion(nil, nil) // Tipo di dato non trovato
+            return
+        }
+
+        let calendar = Calendar.current
+        guard let sevenDaysAgo = calendar.date(byAdding: .day, value: -7, to: Date()),
+            let startOfSevenDaysAgo = calendar.startOfDay(for: sevenDaysAgo) else {
+            completion(nil, nil)
+            return
+        }
+
+        let now = Date()
+        let predicate = HKQuery.predicateForSamples(withStart: startOfSevenDaysAgo, end: now, options: .strictStartDate)
+
+        var interval = DateComponents()
+        interval.day = 1
+
+        let query = HKStatisticsCollectionQuery(quantityType: quantityType, quantitySamplePredicate: predicate, options: [.cumulativeSum], anchorDate: startOfSevenDaysAgo, intervalComponents: interval)
+
+        query.initialResultsHandler = { _, results, error in
+            guard let results = results else {
+                completion(nil, error)
+                return
+            }
+
+            var data: [Double] = []
+
+            results.enumerateStatistics(from: startOfSevenDaysAgo, to: now) { statistics, _ in
+                let value = statistics.sumQuantity()?.doubleValue(for: HKUnit.count()) ?? 0
+                data.append(value)
+            }
+
+            completion(data, nil)
+        }
+
+        HKHealthStore().execute(query)
+    }
+
     
 }

@@ -50,12 +50,99 @@ struct ContentView: View {
            stepsData.values.max() ?? 0
        }
        
+    @State private var last7DaysSteps: [Double] = []
+    @State private var last7DaysFlights: [Double] = []
+
+
+    private func calculateTrend(for last7DaysData: [Double], comparedTo previousData: [Double]) -> String {
+        let last7DaysAverage = last7DaysData.reduce(0, +) / Double(last7DaysData.count)
+        let previousAverage = previousData.reduce(0, +) / Double(previousData.count)
+        
+        let difference = last7DaysAverage - previousAverage
+        
+
+        if difference > 0 {
+            if difference / previousAverage > 0.2 { // Aumento significativo
+                return "increasing_significantly"
+            } else { // Aumento lieve
+                return "increasing_slightly"
+            }
+        } else if difference < 0 {
+            if abs(difference / previousAverage) > 0.2 { // Diminuzione significativa
+                return "decreasing_significantly"
+            } else { // Diminuzione lieve
+                return "decreasing_slightly"
+            }
+        }
+        return "stable"
+    }
+
     
     var body: some View {
         GeometryReader { geometry in
             VStack {
                 TabView {
-                    
+                    VStack {
+                        Text("7-Day Trend").font(.headline)
+                        
+                        // Trend per i Steps
+                        let trendSteps = calculateTrend(for: last7DaysSteps, comparedTo: avgstepsData.values.map { Double($0) })
+                        // Trend per i Flights
+                        let trendFlights = calculateTrend(for: last7DaysFlights, comparedTo: avgflightsData.values.map { Double($0) })
+
+                        // Feedback per i Steps
+                        switch trendSteps {
+                        case "increasing_significantly":
+                            Text("Your step count has greatly increased, excellent job!").foregroundColor(.green)
+                            Image(systemName: "arrow.up.circle.fill").foregroundColor(.green)
+                        case "increasing_slightly":
+                            Text("Your steps are slightly up. Keep it up!").foregroundColor(.green)
+                            Image(systemName: "arrow.up.circle").foregroundColor(.green)
+                        case "decreasing_significantly":
+                            Text("Your step count has significantly decreased, try to move more!").foregroundColor(.red)
+                            Image(systemName: "arrow.down.circle.fill").foregroundColor(.red)
+                        case "decreasing_slightly":
+                            Text("You've slowed down a bit in steps. Every step counts!").foregroundColor(.red)
+                            Image(systemName: "arrow.down.circle").foregroundColor(.red)
+                        default:
+                            Text("You're keeping a consistent pace in steps, well done!").foregroundColor(.blue)
+                            Image(systemName: "equal.circle.fill").foregroundColor(.blue)
+                        }
+
+                        Spacer().frame(height: 20) // Aggiunge spazio tra i feedback dei steps e dei flights
+
+                        // Feedback per i Flights
+                        switch trendFlights {
+                        case "increasing_significantly":
+                            Text("You've climbed significantly more stairs, amazing effort!").foregroundColor(.green)
+                            Image(systemName: "arrow.up.circle.fill").foregroundColor(.green)
+                        case "increasing_slightly":
+                            Text("A slight increase in stairs climbed. Good job!").foregroundColor(.green)
+                            Image(systemName: "arrow.up.circle").foregroundColor(.green)
+                        case "decreasing_significantly":
+                            Text("There's a significant drop in your stairs climbing. Let's aim higher!").foregroundColor(.red)
+                            Image(systemName: "arrow.down.circle.fill").foregroundColor(.red)
+                        case "decreasing_slightly":
+                            Text("You've climbed fewer stairs lately. Every floor counts!").foregroundColor(.red)
+                            Image(systemName: "arrow.down.circle").foregroundColor(.red)
+                        default:
+                            Text("Your pace in climbing stairs is consistent, nicely done!").foregroundColor(.blue)
+                            Image(systemName: "equal.circle.fill").foregroundColor(.blue)
+                        }
+                    }
+                    .padding().onAppear {
+                        HealthKitManager.shared.fetchLast7DaysSteps { [weak self] stepsData, _ in
+                            DispatchQueue.main.async {
+                                self?.last7DaysSteps = stepsData ?? []
+                            }
+                        }
+
+                        HealthKitManager.shared.fetchLast7DaysFlights { [weak self] flightsData, _ in
+                            DispatchQueue.main.async {
+                                self?.last7DaysFlights = flightsData ?? []
+                            }
+                        }                        
+                    }                    
                         VStack{
                             VStack {
                                 Text("Today")
@@ -288,7 +375,8 @@ struct ContentView: View {
                                
                         }.padding(.top, 20)
                     }
-                    .padding(.bottom, 25)    
+                    .padding(.bottom, 25)                        
+
                 }.tabViewStyle(PageTabViewStyle())
             }
         }
@@ -320,6 +408,18 @@ struct ContentView: View {
         HealthKitManager.shared.fetchStepsThisMonthByDay { avgstepsByDay, _ in
             self.avgstepsData = avgstepsByDay ?? [:]
         }
+
+        HealthKitManager.shared.fetchLast7DaysSteps { [weak self] stepsData, _ in
+            DispatchQueue.main.async {
+                self?.last7DaysSteps = stepsData ?? []
+            }
+        }
+
+        HealthKitManager.shared.fetchLast7DaysFlights { [weak self] flightsData, _ in
+            DispatchQueue.main.async {
+                self?.last7DaysFlights = flightsData ?? []
+            }
+        }        
     }
     
     private func calculateBarHeight(for value: Double, isFlight: Bool) -> CGFloat {

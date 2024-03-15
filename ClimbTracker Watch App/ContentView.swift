@@ -108,7 +108,7 @@ struct ContentView: View {
                                     .fixedSize(horizontal: false, vertical: true)
                                     .lineLimit(nil)
                                     .frame(maxWidth: .infinity, alignment: .center)
-                                    .multilineTextAlignment(.center)
+                                    .multilineTextAlignment(.leading)
                         }
                         case "decreasing_significantly":
                         HStack {
@@ -117,7 +117,7 @@ struct ContentView: View {
                                     .fixedSize(horizontal: false, vertical: true)
                                     .lineLimit(nil)
                                     .frame(maxWidth: .infinity, alignment: .center)
-                                    .multilineTextAlignment(.center)
+                                    .multilineTextAlignment(.leading)
                         }
                         case "decreasing_slightly":
                         HStack {
@@ -126,7 +126,7 @@ struct ContentView: View {
                                     .fixedSize(horizontal: false, vertical: true)
                                     .lineLimit(nil)
                                     .frame(maxWidth: .infinity, alignment: .center)
-                                    .multilineTextAlignment(.center)
+                                    .multilineTextAlignment(.leading)
                         }
                         default:
                         HStack {
@@ -135,7 +135,7 @@ struct ContentView: View {
                                     .fixedSize(horizontal: false, vertical: true)
                                     .lineLimit(nil)
                                     .frame(maxWidth: .infinity, alignment: .center)
-                                    .multilineTextAlignment(.center)
+                                    .multilineTextAlignment(.leading)
                         }
                         }
 
@@ -150,7 +150,7 @@ struct ContentView: View {
                                     .fixedSize(horizontal: false, vertical: true)
                                     .lineLimit(nil)
                                     .frame(maxWidth: .infinity, alignment: .center)
-                                    .multilineTextAlignment(.center)
+                                    .multilineTextAlignment(.leading)
                         }
                         case "increasing_slightly":
                         HStack {
@@ -159,7 +159,7 @@ struct ContentView: View {
                                     .fixedSize(horizontal: false, vertical: true)
                                     .lineLimit(nil)
                                     .frame(maxWidth: .infinity, alignment: .center)
-                                    .multilineTextAlignment(.center)
+                                    .multilineTextAlignment(.leading)
                         }
                         case "decreasing_significantly":
                         HStack {
@@ -168,7 +168,7 @@ struct ContentView: View {
                                     .fixedSize(horizontal: false, vertical: true)
                                     .lineLimit(nil)
                                     .frame(maxWidth: .infinity, alignment: .center)
-                                    .multilineTextAlignment(.center)
+                                    .multilineTextAlignment(.leading)
                         }
                         case "decreasing_slightly":
                             HStack {                                
@@ -177,7 +177,7 @@ struct ContentView: View {
                                     .fixedSize(horizontal: false, vertical: true)
                                     .lineLimit(nil)
                                     .frame(maxWidth: .infinity, alignment: .center)
-                                    .multilineTextAlignment(.center)
+                                    .multilineTextAlignment(.leading)
                             }
                         default:
                             HStack {
@@ -186,7 +186,7 @@ struct ContentView: View {
                                     .fixedSize(horizontal: false, vertical: true)
                                     .lineLimit(nil)
                                     .frame(maxWidth: .infinity, alignment: .center)
-                                    .multilineTextAlignment(.center)
+                                    .multilineTextAlignment(.leading)
                             }
                         }
                     }

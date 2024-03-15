@@ -191,17 +191,7 @@ struct ContentView: View {
                         }
                     }
                     .padding().onAppear {
-                        HealthKitManager.shared.fetchLast7DaysSteps { [self] stepsData, _ in
-                            DispatchQueue.main.async {
-                                self.last7DaysSteps = stepsData ?? []
-                            }
-                        }
-
-                        HealthKitManager.shared.fetchLast7DaysFlights { [self] flightsData, _ in
-                            DispatchQueue.main.async {
-                                self.last7DaysFlights = flightsData ?? []
-                            }
-                        }                        
+                        fetchAllData()
                     }                    
                         VStack{
                             VStack {

@@ -84,7 +84,6 @@ struct ContentView: View {
                 TabView {                    
                         VStack {                            
                             Text("7-Day Trend").font(.headline)
-                            Text("\(last7DaysSteps.reduce(0, +)) \(last7DaysSteps.count) \(avgstepsData.reduce(0, +)) \(avgstepsData.count) \((last7DaysSteps.reduce(0, +) / Double(last7DaysSteps.count)) / (avgstepsData.reduce(0, +) / Double(avgstepsData.count)))").font(.footnote)
                             Spacer()
                             if(last7DaysSteps.count >= 7) {    
                                 // Trend per i Steps

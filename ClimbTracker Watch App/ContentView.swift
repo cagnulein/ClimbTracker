@@ -23,10 +23,10 @@ struct ContentView: View {
     @State private var flightsData: [Int: Double] = [:]
     @State private var stepsData: [Int: Double] = [:]
     @State private var avgflightsData: [Int: Double] = [:]
-    @State private var avgstepsData: [Int: Double] = [:]    
-    
-    /*@State private var flights = 13.0
-    @State private var steps = 3023.0
+    @State private var avgstepsData: [Int: Double] = [:]
+    /*
+    @State private var flights = 13.0
+    @State private var steps = 303.0
 
     @State private var avgflights = 15.0
     @State private var avgsteps = 528.0
@@ -257,7 +257,7 @@ struct ContentView: View {
                     }
                     VStack{
                         VStack {
-                            Text("Your target Stairs level in the widget is based on your monthly average of:")
+                            Text("Your target Stairs level is based on your monthly average of:")
                                 .fixedSize(horizontal: false, vertical: true)
                                 .lineLimit(nil) // Assicurati che il limite di linee sia impostato su nil per permettere un numero illimitato di righe
                                 .frame(maxWidth: .infinity, alignment: .center)
@@ -266,19 +266,23 @@ struct ContentView: View {
                             Text("\(avgflights, specifier: "%.0f")").font(.title)
                             Text("or \(avgflights * 3, specifier: "%.0f") meters").font(.footnote)
                             Text("or \(avgflights * 10, specifier: "%.0f") feet").font(.footnote)
+                            Spacer()
+                            ProgressView(value: self.flights, total: self.avgflights ).progressViewStyle(.linear)
                         }.padding(.top, 20)
                     }
                     .padding(.bottom, 25)
 
                     VStack{
                         VStack {
-                            Text("Your target Steps level in the widget is based on your monthly average of:")
+                            Text("Your target Steps level is based on your monthly average of:")
                                 .fixedSize(horizontal: false, vertical: true)
                                 .lineLimit(nil) // Assicurati che il limite di linee sia impostato su nil per permettere un numero illimitato di righe
                                 .frame(maxWidth: .infinity, alignment: .center)
                                 .multilineTextAlignment(.center)
                             Spacer()
                             Text("\(avgsteps, specifier: "%.0f")").font(.title)
+                            Spacer()
+                            ProgressView(value: self.steps, total: self.avgsteps ).progressViewStyle(.linear)
                         }.padding(.top, 20)
                     }
                     .padding(.bottom, 25)    

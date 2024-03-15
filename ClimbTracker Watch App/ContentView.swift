@@ -82,7 +82,7 @@ struct ContentView: View {
         GeometryReader { geometry in
             VStack {
                 TabView {
-                    if(previousData.count >= 7) {
+                    if(last7DaysSteps.count >= 7) {
                         VStack {
                             Text("7-Day Trend").font(.headline)
                             

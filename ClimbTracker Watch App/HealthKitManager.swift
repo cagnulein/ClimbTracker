@@ -374,7 +374,6 @@ class HealthKitManager {
             return
         }
 
-        let calendar = Calendar.current
         let now = Date()
         let calendar = Calendar.current
 

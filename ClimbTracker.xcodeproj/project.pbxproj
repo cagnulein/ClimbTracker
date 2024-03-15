@@ -22,6 +22,8 @@
 		87B8A7E32B9DBCA600818314 /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B8A7E22B9DBCA600818314 /* AppIntent.swift */; };
 		87B8A7E52B9DBCA800818314 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87B8A7E42B9DBCA800818314 /* Assets.xcassets */; };
 		87B8A7E92B9DBCA800818314 /* multiWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 87B8A7D92B9DBCA600818314 /* multiWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		87BAC3BB2BA48DE70003E925 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 87BAC3BA2BA48DE70003E925 /* PrivacyInfo.xcprivacy */; };
+		87BAC3BD2BA48E580003E925 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 87BAC3BC2BA48E580003E925 /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,7 +90,8 @@
 		87B8A7E42B9DBCA800818314 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		87B8A7E62B9DBCA800818314 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		87B8A7EE2B9E1A2C00818314 /* multiWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = multiWidgetExtension.entitlements; sourceTree = "<group>"; };
-		87BAC3B92BA459E80003E925 /* ClimbTracker-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ClimbTracker-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
+		87BAC3BA2BA48DE70003E925 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		87BAC3BC2BA48E580003E925 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,7 +146,6 @@
 		87B8A7BD2B9C37AA00818314 /* ClimbTracker Watch App */ = {
 			isa = PBXGroup;
 			children = (
-				87BAC3B92BA459E80003E925 /* ClimbTracker-Watch-App-Info.plist */,
 				8798A66A2B9BBED000F637D3 /* ContentView.swift */,
 				870E70B72B8B89A7007342A2 /* ClimbTracker Watch App.entitlements */,
 				870E70B12B8B8960007342A2 /* HealthKitManager.swift */,
@@ -155,6 +157,7 @@
 				87B8A7C02B9C37AA00818314 /* ContentView.swift */,
 				87B8A7C22B9C37AB00818314 /* Assets.xcassets */,
 				87B8A7C42B9C37AB00818314 /* Preview Content */,
+				87BAC3BA2BA48DE70003E925 /* PrivacyInfo.xcprivacy */,
 			);
 			path = "ClimbTracker Watch App";
 			sourceTree = "<group>";
@@ -179,6 +182,7 @@
 		87B8A7DF2B9DBCA600818314 /* multiWidget */ = {
 			isa = PBXGroup;
 			children = (
+				87BAC3BC2BA48E580003E925 /* PrivacyInfo.xcprivacy */,
 				87B8A7E02B9DBCA600818314 /* multiWidget.swift */,
 				87B8A7E22B9DBCA600818314 /* AppIntent.swift */,
 				87B8A7E42B9DBCA800818314 /* Assets.xcassets */,
@@ -296,6 +300,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87BAC3BB2BA48DE70003E925 /* PrivacyInfo.xcprivacy in Resources */,
 				87B8A7C62B9C37AB00818314 /* Preview Assets.xcassets in Resources */,
 				87B8A7C32B9C37AB00818314 /* Assets.xcassets in Resources */,
 			);
@@ -305,6 +310,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87BAC3BD2BA48E580003E925 /* PrivacyInfo.xcprivacy in Resources */,
 				87B8A7E52B9DBCA800818314 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -477,7 +483,6 @@
 				DEVELOPMENT_TEAM = 6335M7T29D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "ClimbTracker-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = ClimbTracker;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "ClimbTracker would like to read steps and stairs climbed in order to show you the widgets and the stats";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "ClimbTracker would like to read steps and stairs climbed in order to show you the widgets and the stats";
@@ -512,7 +517,6 @@
 				DEVELOPMENT_TEAM = 6335M7T29D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "ClimbTracker-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = ClimbTracker;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "ClimbTracker would like to read steps and stairs climbed in order to show you the widgets and the stats";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "ClimbTracker would like to read steps and stairs climbed in order to show you the widgets and the stats";

@@ -84,7 +84,7 @@ struct ContentView: View {
                 TabView {                    
                         VStack {                            
                             Text("7-Day Trend").font(.headline)
-
+                            Spacer()
                             if(last7DaysSteps.count >= 7) {    
                                 // Trend per i Steps
                                 let trendSteps = calculateTrend(for: last7DaysSteps, comparedTo: avgstepsData.values.map { Double($0) })

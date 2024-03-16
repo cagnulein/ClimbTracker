@@ -8,6 +8,12 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         scheduleBackgroundRefresh()
     }
     
+    func applicationDidBecomeActive() {
+        HealthKitManager.shared.requestAuthorization {success, error in
+            print("requestAuthorization from applicationDidBecomeActive \(success) \(error.debugDescription)")
+        }
+    }
+    
     func scheduleBackgroundRefresh() {
         // Scegli una data per il prossimo aggiornamento. Ad esempio, 15 minuti da ora.
         let nextUpdateTime = Date(timeIntervalSinceNow: 1 * 60)

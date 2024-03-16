@@ -198,6 +198,7 @@ class HealthKitManager {
             statsCollection.enumerateStatistics(from: startOfLastMonth, to: Date()) { statistics, stop in
                 if let sum = statistics.sumQuantity() {
                     let flights = sum.doubleValue(for: HKUnit.count())
+                    print("maxflights \(daysCounted) \(flights)")
                     totalFlights += flights
                     if flights > 0 {
                         daysCounted += 1
@@ -223,18 +224,17 @@ class HealthKitManager {
         let now = Date()
         let calendar = Calendar.current
 
-        guard let oneMonthAgo = calendar.date(byAdding: .month, value: -1, to: now),
-              let startOfLastMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: oneMonthAgo)) else {
-            completion(nil, nil)
+        guard let sixDaysAgo = calendar.date(byAdding: .day, value: -7, to: now) else {
+            completion(nil, nil) // Handle the error appropriately
             return
         }
-
-        let predicate = HKQuery.predicateForSamples(withStart: startOfLastMonth, end: now, options: .strictStartDate)
+        
+        let predicate = HKQuery.predicateForSamples(withStart: sixDaysAgo, end: now, options: .strictStartDate)
 
         var interval = DateComponents()
         interval.day = 1
 
-        let query = HKStatisticsCollectionQuery(quantityType: quantityType, quantitySamplePredicate: predicate, options: .cumulativeSum, anchorDate: startOfLastMonth, intervalComponents: interval)
+        let query = HKStatisticsCollectionQuery(quantityType: quantityType, quantitySamplePredicate: predicate, options: .cumulativeSum, anchorDate: sixDaysAgo, intervalComponents: interval)
 
         query.initialResultsHandler = { _, results, error in
             guard let statsCollection = results else {
@@ -244,9 +244,10 @@ class HealthKitManager {
 
             var totalQuantity: Double = 0
             var daysCounted: Double = 0
-            statsCollection.enumerateStatistics(from: startOfLastMonth, to: now) { statistics, _ in
+            statsCollection.enumerateStatistics(from: sixDaysAgo, to: now) { statistics, _ in
                 if let sum = statistics.sumQuantity() {
                     let quantity = sum.doubleValue(for: HKUnit.count())
+                    print("units \(daysCounted) \(quantity)")
                     totalQuantity += quantity
                     if quantity > 0 {
                         daysCounted += 1
@@ -325,17 +326,17 @@ class HealthKitManager {
         
         let calendar = Calendar.current
         let now = Date()
-        guard let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: now)),
-              let endOfMonth = calendar.date(byAdding: DateComponents(month: 1, day: -1), to: startOfMonth) else {
+        guard let sixDaysAgo = calendar.date(byAdding: .day, value: -7, to: now) else {
+            completion(nil, nil) // Handle the error appropriately
             return
         }
 
-        let predicate = HKQuery.predicateForSamples(withStart: startOfMonth, end: endOfMonth, options: .strictStartDate)
+        let predicate = HKQuery.predicateForSamples(withStart: sixDaysAgo, end: now, options: .strictStartDate)
 
         var interval = DateComponents()
         interval.day = 1
 
-        let query = HKStatisticsCollectionQuery(quantityType: quantityType, quantitySamplePredicate: predicate, options: [.cumulativeSum], anchorDate: startOfMonth, intervalComponents: interval)
+        let query = HKStatisticsCollectionQuery(quantityType: quantityType, quantitySamplePredicate: predicate, options: [.cumulativeSum], anchorDate: sixDaysAgo, intervalComponents: interval)
         
         query.initialResultsHandler = { query, results, error in
             guard let results = results else {
@@ -344,11 +345,12 @@ class HealthKitManager {
             }
             
             var data: [Int: Double] = [:]
-            
-            results.enumerateStatistics(from: startOfMonth, to: endOfMonth) { statistics, _ in
+
+            results.enumerateStatistics(from: sixDaysAgo, to: now) { statistics, _ in
                 let hour = Calendar.current.component(.day, from: statistics.startDate)
-                let value = statistics.sumQuantity()?.doubleValue(for: identifier == .flightsClimbed ? HKUnit.count() : HKUnit.count()) ?? 0
+                let value = statistics.sumQuantity()?.doubleValue(for: HKUnit.count())
                 data[hour] = value
+                print("day \(hour) value \(value ?? 0)")
             }
             
             completion(data, nil)
@@ -379,7 +381,7 @@ class HealthKitManager {
 
         // Calcola la data di 7 giorni fa
         guard let yesterday = calendar.date(byAdding: .day, value: -1, to: now),
-              let sevenDaysAgo = calendar.date(byAdding: .day, value: -7, to: yesterday) else {
+              let sevenDaysAgo = calendar.date(byAdding: .day, value: -6, to: yesterday) else {
             return
         }
         

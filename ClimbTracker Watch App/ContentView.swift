@@ -301,7 +301,7 @@ struct ContentView: View {
                         .padding([.bottom], 35).padding([.leading, .trailing], 15)
                         VStack{
                             VStack {
-                                Text("Current Month")
+                                Text("Last 7 days")
                                 Text("AVG Stairs: \(avgflights, specifier: "%.0f")").font(.caption2)
                                 Text("AVG Steps: \(avgsteps, specifier: "%.0f")").font(.caption2)
                                 

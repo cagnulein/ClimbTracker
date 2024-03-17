@@ -32,20 +32,18 @@ class HealthKitManager {
 
         healthStore.requestAuthorization(toShare: [], read: [flightsClimbed, steps]) { success, error in
             
-            completion(success, error)
+            completion(success, error)          
+            
             let sharedDefaults = UserDefaults(suiteName: "group.climbTracker")
             self.fetchAverageQuantityLastMonth(for: .flightsClimbed) {
                 f, error in
                 print("avgFlightLastMonth \(f ?? 0)")
                 self.avgFlightLastMonth = f ?? 0
-                sharedDefaults?.set(HealthKitManager.shared.avgFlightLastMonth, forKey: "avgFlightLastMonth")
-                print("\(sharedDefaults?.double(forKey: "avgFlightLastMonth"))")
             }
             self.fetchAverageQuantityLastMonth(for: .stepCount) {
                 f, error in
                 print("avgStepsLastMonth \(f ?? 0)")
                 self.avgStepsLastMonth = f ?? 0
-                sharedDefaults?.set(HealthKitManager.shared.avgStepsLastMonth, forKey: "avgStepsLastMonth")
             }
             self.fetchFlightsClimbedToday { flightsClimbed, error in
                 print("flightsClimbed \(flightsClimbed ?? 0)")
@@ -403,7 +401,7 @@ class HealthKitManager {
 
             var data: [Double] = []
 
-            results.enumerateStatistics(from: startOfSevenDaysAgo, to: now) { statistics, _ in
+            results.enumerateStatistics(from: startOfSevenDaysAgo, to: yesterday) { statistics, _ in
                 let value = statistics.sumQuantity()?.doubleValue(for: HKUnit.count()) ?? 0
                 data.append(value)
             }

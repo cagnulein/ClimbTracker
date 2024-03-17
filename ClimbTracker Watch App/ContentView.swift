@@ -18,7 +18,7 @@ struct ContentView: View {
 
     @State private var avgflights = 0.0
     @State private var avgsteps = 0.0
-
+    
     // Dati di esempio - sostituisci con i tuoi dati reali
     @State private var flightsData: [Int: Double] = [:]
     @State private var stepsData: [Int: Double] = [:]
@@ -59,7 +59,7 @@ struct ContentView: View {
         
         let difference = last7DaysAverage / previousData
         
-        print("\(difference) \(last7DaysAverage)")
+        print("difference \(difference) \(last7DaysAverage)")
         if difference >= 1.1 {
             if difference > 1.2 { // Aumento significativo
                 return "increasing_significantly"
@@ -76,6 +76,61 @@ struct ContentView: View {
         return "stable"
     }
 
+    private func avg30DaysSteps() -> Int {
+        let defaults = UserDefaults.standard
+        var scores: [String: Int] = [:]
+        if let data = defaults.data(forKey: "dailySteps"),
+           let savedScores = try? PropertyListDecoder().decode([String: Int].self, from: data) {
+            scores = savedScores
+        }
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+
+        let calendar = Calendar.current
+        let today = Date()
+        guard let oneMonthBack = calendar.date(byAdding: .month, value: -1, to: today) else { return 0 }
+
+        let filteredScores = scores.filter {
+            guard let date = dateFormatter.date(from: $0.key) else { return false }
+            return date >= oneMonthBack
+        }
+
+        let avg = filteredScores.values.reduce(0, +) / filteredScores.count
+        print("avgsteps30days \(Double(avg))")
+        let sharedDefaults = UserDefaults(suiteName: "group.climbTracker")
+        sharedDefaults?.set(avg, forKey: "avgStepsLastMonth")
+        return avg
+    }
+    
+    private func avg30DaysFlights() -> Int {
+        let defaults = UserDefaults.standard
+        var scores: [String: Int] = [:]
+        if let data = defaults.data(forKey: "dailyFlights"),
+           let savedScores = try? PropertyListDecoder().decode([String: Int].self, from: data) {
+            scores = savedScores
+        }
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+
+        let calendar = Calendar.current
+        let today = Date()
+        guard let oneMonthBack = calendar.date(byAdding: .month, value: -1, to: today) else { return 0 }
+
+        let filteredScores = scores.filter {
+            guard let date = dateFormatter.date(from: $0.key) else { return false }
+            return date >= oneMonthBack
+        }
+
+        let avg = filteredScores.values.reduce(0, +) / filteredScores.count
+        print("avgflights30days \(Double(avg))")
+        let sharedDefaults = UserDefaults(suiteName: "group.climbTracker")
+        sharedDefaults?.set(avg, forKey: "avgFlightLastMonth")
+        print("\(sharedDefaults?.double(forKey: "avgFlightLastMonth"))")
+
+        return avg
+    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -86,9 +141,9 @@ struct ContentView: View {
                             Spacer()
                             if(last7DaysSteps.count >= 7) {    
                                 // Trend per i Steps
-                                let trendSteps = calculateTrend(for: last7DaysSteps, comparedTo: avgsteps)
+                                let trendSteps = calculateTrend(for: last7DaysSteps, comparedTo: Double(avg30DaysSteps()))
                                 // Trend per i Flights
-                                let trendFlights = calculateTrend(for: last7DaysFlights, comparedTo: avgflights)
+                                let trendFlights = calculateTrend(for: last7DaysFlights, comparedTo: Double(avg30DaysFlights()))
 
                                 // Feedback per i Steps
                                 switch trendSteps {
@@ -411,11 +466,12 @@ struct ContentView: View {
                                 .frame(maxWidth: .infinity, alignment: .center)
                                 .multilineTextAlignment(.center)
                             Spacer()
-                            Text("\(avgflights, specifier: "%.0f")").font(.title).foregroundColor(colorProgressBar(fraction: self.avgflights - self.flights))
-                            Text("or \(avgflights * 3, specifier: "%.0f") meters").font(.footnote)
-                            Text("or \(avgflights * 10, specifier: "%.0f") feet").font(.footnote)
+                            let avgflights30days = Double(avg30DaysFlights())
+                            Text("\(avgflights30days, specifier: "%.0f")").font(.title).foregroundColor(colorProgressBar(fraction: avgflights30days - self.flights))
+                            Text("or \(avgflights30days * 3, specifier: "%.0f") meters").font(.footnote)
+                            Text("or \(avgflights30days * 10, specifier: "%.0f") feet").font(.footnote)
                             Spacer()
-                            ProgressView(value: self.flights, total: self.avgflights ).progressViewStyle(.linear)
+                            ProgressView(value: self.flights, total: avgflights30days ).progressViewStyle(.linear)
                             Text("Current: \(Int(self.flights))").font(.footnote)
                         }.padding(.top, 20)
                     }
@@ -429,9 +485,10 @@ struct ContentView: View {
                                 .frame(maxWidth: .infinity, alignment: .center)
                                 .multilineTextAlignment(.center)
                             Spacer()
-                            Text("\(avgsteps, specifier: "%.0f")").font(.title).foregroundColor(colorProgressBar(fraction: self.avgsteps - self.steps))
+                            let avgsteps30days = Double(avg30DaysSteps())
+                            Text("\(avgsteps30days, specifier: "%.0f")").font(.title).foregroundColor(colorProgressBar(fraction: avgsteps30days - self.steps))
                             Spacer()
-                            ProgressView(value: self.steps, total: self.avgsteps ).progressViewStyle(.linear)
+                            ProgressView(value: self.steps, total: avgsteps30days ).progressViewStyle(.linear)
                             Text("Current: \(Int(self.steps))").font(.footnote)
                                
                         }.padding(.top, 20)
@@ -464,10 +521,56 @@ struct ContentView: View {
         
         HealthKitManager.shared.fetchFlightsClimbedThisMonthByDay { avgflightsByDay, _ in
             self.avgflightsData = avgflightsByDay ?? [:]
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            
+            let calendar = Calendar.current
+            let today = Date()
+            let components = calendar.dateComponents([.year, .month], from: today)
+            let year = components.year!
+            let month = components.month!
+            
+            var scores: [String: Int] = [:]
+            
+            for (index, flightData) in avgflightsData.enumerated() {
+                let day = flightData.key
+                let dateStr = String(format: "%04d-%02d-%02d", year, month, day)
+                
+                scores[dateStr] = Int(flightData.value)
+                print("dailyFlights \(dateStr) \(scores[dateStr])")
+            }
+            
+            // Salva il dizionario scores
+            if let encodedData = try? PropertyListEncoder().encode(scores) {
+                UserDefaults.standard.set(encodedData, forKey: "dailyFlights")
+            }
         }
 
         HealthKitManager.shared.fetchStepsThisMonthByDay { avgstepsByDay, _ in
             self.avgstepsData = avgstepsByDay ?? [:]
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            
+            let calendar = Calendar.current
+            let today = Date()
+            let components = calendar.dateComponents([.year, .month], from: today)
+            let year = components.year!
+            let month = components.month!
+            
+            var scores: [String: Int] = [:]
+            
+            for (index, flightData) in avgstepsData.enumerated() {
+                let day = flightData.key
+                let dateStr = String(format: "%04d-%02d-%02d", year, month, day)
+                
+                scores[dateStr] = Int(flightData.value)
+                print("dailySteps \(dateStr) \(scores[dateStr])")
+            }
+            
+            // Salva il dizionario scores
+            if let encodedData = try? PropertyListEncoder().encode(scores) {
+                UserDefaults.standard.set(encodedData, forKey: "dailySteps")
+            }
         }
 
         HealthKitManager.shared.fetchLast7DaysSteps { [self] stepsData, _ in
@@ -484,8 +587,8 @@ struct ContentView: View {
     }
     
     private func colorProgressBar(fraction: Double) -> Color {
-        let redComponent = CGFloat(1 - fraction)
-        let greenComponent = CGFloat(fraction)
+        let greenComponent = CGFloat(1 - fraction)
+        let redComponent = CGFloat(fraction)
         return fraction < 0 ? .blue : Color(red: redComponent, green: greenComponent, blue: 0.0)
     }
     

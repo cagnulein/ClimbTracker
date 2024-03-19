@@ -592,7 +592,7 @@ struct ContentView: View {
     private func colorProgressBar(fraction: Double) -> Color {
         let redComponent = CGFloat(1 - fraction)
         let greenComponent = CGFloat(fraction)
-        return fraction == 1 ? .blue : Color(red: redComponent, green: greenComponent, blue: 0.0)
+        return fraction >= 1 ? .blue : Color(red: redComponent, green: greenComponent, blue: 0.0)
     }
     
     private func calculateBarHeight(for value: Double, isFlight: Bool) -> CGFloat {

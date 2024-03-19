@@ -129,6 +129,9 @@ struct ContentView: View {
         sharedDefaults?.set(avg, forKey: "avgFlightLastMonth")
         print("\(sharedDefaults?.double(forKey: "avgFlightLastMonth"))")
 
+        printUserDefaultsData(forKey: "dailyFlights")
+        printUserDefaultsData(forKey: "dailySteps")
+
         return avg
     }
     
@@ -467,7 +470,7 @@ struct ContentView: View {
                                 .multilineTextAlignment(.center)
                             Spacer()
                             let avgflights30days = Double(avg30DaysFlights())
-                            Text("\(avgflights30days, specifier: "%.0f")").font(.title).foregroundColor(colorProgressBar(fraction: avgflights30days - self.flights))
+                            Text("\(avgflights30days, specifier: "%.0f")").font(.title).foregroundColor(colorProgressBar(fraction: self.flights / avgflights30days))
                             Text("or \(avgflights30days * 3, specifier: "%.0f") meters").font(.footnote)
                             Text("or \(avgflights30days * 10, specifier: "%.0f") feet").font(.footnote)
                             Spacer()
@@ -486,7 +489,7 @@ struct ContentView: View {
                                 .multilineTextAlignment(.center)
                             Spacer()
                             let avgsteps30days = Double(avg30DaysSteps())
-                            Text("\(avgsteps30days, specifier: "%.0f")").font(.title).foregroundColor(colorProgressBar(fraction: avgsteps30days - self.steps))
+                            Text("\(avgsteps30days, specifier: "%.0f")").font(.title).foregroundColor(colorProgressBar(fraction: self.steps / avgsteps30days))
                             Spacer()
                             ProgressView(value: self.steps, total: avgsteps30days ).progressViewStyle(.linear)
                             Text("Current: \(Int(self.steps))").font(.footnote)
@@ -587,9 +590,9 @@ struct ContentView: View {
     }
     
     private func colorProgressBar(fraction: Double) -> Color {
-        let greenComponent = CGFloat(1 - fraction)
-        let redComponent = CGFloat(fraction)
-        return fraction < 0 ? .blue : Color(red: redComponent, green: greenComponent, blue: 0.0)
+        let redComponent = CGFloat(1 - fraction)
+        let greenComponent = CGFloat(fraction)
+        return fraction == 1 ? .blue : Color(red: redComponent, green: greenComponent, blue: 0.0)
     }
     
     private func calculateBarHeight(for value: Double, isFlight: Bool) -> CGFloat {
@@ -603,6 +606,17 @@ struct ContentView: View {
         let maxValue = isFlight ? (avgflightsData.values.max() ?? 0) : (avgstepsData.values.max() ?? 0)
         return CGFloat(value / (maxValue == 0 ? 1 : maxValue)) * 100
     }
+
+    private func printUserDefaultsData(forKey key: String) {
+        let defaults = UserDefaults.standard
+        if let savedData = defaults.data(forKey: key),
+        let decodedData = try? PropertyListDecoder().decode([String: Int].self, from: savedData) {
+            for (date, value) in decodedData.sorted(by: { $0.key < $1.key }) {
+                print("\"\(date)\": \(value),")
+            }
+        }
+    }
+
 }
 
 

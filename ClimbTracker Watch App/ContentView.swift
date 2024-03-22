@@ -89,7 +89,10 @@ struct ContentView: View {
 
         let calendar = Calendar.current
         let today = Date()
-        guard let oneMonthBack = calendar.date(byAdding: .month, value: -1, to: today) else { return 0 }
+        guard let yesterday = calendar.date(byAdding: .day, value: -1, to: today),
+              let oneMonthBack = calendar.date(byAdding: .month, value: -1, to: yesterday) else {
+            return 0
+        }
 
         let filteredScores = scores.filter {
             guard let date = dateFormatter.date(from: $0.key) else { return false }
@@ -116,7 +119,10 @@ struct ContentView: View {
 
         let calendar = Calendar.current
         let today = Date()
-        guard let oneMonthBack = calendar.date(byAdding: .month, value: -1, to: today) else { return 0 }
+        guard let yesterday = calendar.date(byAdding: .day, value: -1, to: today),
+              let oneMonthBack = calendar.date(byAdding: .month, value: -1, to: yesterday) else {
+            return 0
+        }
 
         let filteredScores = scores.filter {
             guard let date = dateFormatter.date(from: $0.key) else { return false }

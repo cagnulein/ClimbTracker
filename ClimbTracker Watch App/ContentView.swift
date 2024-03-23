@@ -148,7 +148,7 @@ struct ContentView: View {
                         VStack {                            
                             Text("7-Day Trend").font(.headline)
                             Spacer()
-                            if(last7DaysSteps.count >= 7) {    
+                            if(last7DaysSteps.count >= 6) {    
                                 // Trend per i Steps
                                 let trendSteps = calculateTrend(for: last7DaysSteps, comparedTo: Double(avg30DaysSteps()))
                                 // Trend per i Flights

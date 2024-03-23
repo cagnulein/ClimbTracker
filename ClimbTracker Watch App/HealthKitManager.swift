@@ -280,7 +280,7 @@ class HealthKitManager {
         // Ottiene l'inizio del giorno per la data di 7 giorni fa
         let startOfSevenDaysAgo = calendar.startOfDay(for: sevenDaysAgo)
         
-        let predicate = HKQuery.predicateForSamples(withStart: startOfSevenDaysAgo, end: now, options: .strictStartDate)
+        let predicate = HKQuery.predicateForSamples(withStart: startOfSevenDaysAgo, end: yesterday, options: .strictStartDate)
 
         var interval = DateComponents()
         interval.day = 1

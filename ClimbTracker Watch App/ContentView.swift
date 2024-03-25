@@ -99,6 +99,9 @@ struct ContentView: View {
             return date >= oneMonthBack
         }
 
+        if filteredScores.count == 0 {
+            return 0
+        }
         let avg = filteredScores.values.reduce(0, +) / filteredScores.count
         print("avgsteps30days \(Double(avg))")
         let sharedDefaults = UserDefaults(suiteName: "group.climbTracker")
@@ -129,6 +132,9 @@ struct ContentView: View {
             return date >= oneMonthBack
         }
 
+        if filteredScores.count == 0 {
+            return 0
+        }
         let avg = filteredScores.values.reduce(0, +) / filteredScores.count
         print("avgflights30days \(Double(avg))")
         let sharedDefaults = UserDefaults(suiteName: "group.climbTracker")
@@ -148,7 +154,7 @@ struct ContentView: View {
                         VStack {                            
                             Text("7-Day Trend").font(.headline)
                             Spacer()
-                            if(last7DaysSteps.count >= 6) {    
+                            if(last7DaysSteps.count >= 6) {
                                 // Trend per i Steps
                                 let trendSteps = calculateTrend(for: last7DaysSteps, comparedTo: Double(avg30DaysSteps()))
                                 // Trend per i Flights

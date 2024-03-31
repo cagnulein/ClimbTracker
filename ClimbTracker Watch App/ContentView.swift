@@ -547,6 +547,11 @@ struct ContentView: View {
             
             var scores: [String: Int] = [:]
             
+            if let data = UserDefaults.standard.data(forKey: "dailyFlights"),
+               let savedScores = try? PropertyListDecoder().decode([String: Int].self, from: data) {
+                scores = savedScores
+            }
+            
             for (index, flightData) in avgflightsData.enumerated() {
                 let day = flightData.key
                 let dateStr = String(format: "%04d-%02d-%02d", year, month, day)
@@ -573,6 +578,11 @@ struct ContentView: View {
             let month = components.month!
             
             var scores: [String: Int] = [:]
+            
+            if let data = UserDefaults.standard.data(forKey: "dailySteps"),
+               let savedScores = try? PropertyListDecoder().decode([String: Int].self, from: data) {
+                scores = savedScores
+            }
             
             for (index, flightData) in avgstepsData.enumerated() {
                 let day = flightData.key

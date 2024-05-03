@@ -17,18 +17,12 @@ class ProgressProvider: TimelineProvider {
     }
     
     func getSnapshot(in context: Context, completion: @escaping (ProgressEntry) -> Void) {
-         HealthKitManager.shared.requestAuthorization {success, error in
-            print("requestAuthorization from applicationDidBecomeActive \(success) \(error.debugDescription)")
-        }
         let sharedDefaults = UserDefaults(suiteName: "group.climbTracker")
         let entry = ProgressEntry(date: Date(), stairs: sharedDefaults?.double(forKey: "stairs") ?? 0, steps: sharedDefaults?.double(forKey: "steps") ?? 0, avgFlightLastMonth: sharedDefaults?.double(forKey: "avgFlightLastMonth") ?? 0, avgStepsLastMonth: sharedDefaults?.double(forKey: "avgStepsLastMonth") ?? 0) // Dato di esempio per l'anteprima
         completion(entry)
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<ProgressEntry>) -> Void) {
-         HealthKitManager.shared.requestAuthorization {success, error in
-            print("requestAuthorization from applicationDidBecomeActive \(success) \(error.debugDescription)")
-        }
         let sharedDefaults = UserDefaults(suiteName: "group.climbTracker")
         let entry = ProgressEntry(date: Date(), stairs: sharedDefaults?.double(forKey: "stairs") ?? 0, steps: sharedDefaults?.double(forKey: "steps") ?? 0, avgFlightLastMonth: sharedDefaults?.double(forKey: "avgFlightLastMonth") ?? 0, avgStepsLastMonth: sharedDefaults?.double(forKey: "avgStepsLastMonth") ?? 0) // Dato di esempio per l'anteprima
         let entries: [ProgressEntry] = [entry] // Dati per la timeline

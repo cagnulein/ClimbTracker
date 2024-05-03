@@ -187,7 +187,6 @@
 				87B8A7E22B9DBCA600818314 /* AppIntent.swift */,
 				87B8A7E42B9DBCA800818314 /* Assets.xcassets */,
 				87B8A7E62B9DBCA800818314 /* Info.plist */,
-				87B8A7D12B9C37B800818314 /* HealthKitManager */,
 			);
 			path = multiWidget;
 			sourceTree = "<group>";
@@ -338,7 +337,6 @@
 			files = (
 				87B8A7E12B9DBCA600818314 /* multiWidget.swift in Sources */,
 				87B8A7E32B9DBCA600818314 /* AppIntent.swift in Sources */,
-				87B8A7D12B9C37B800818314 /* HealthKitManager */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
